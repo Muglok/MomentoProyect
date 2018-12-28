@@ -31,7 +31,7 @@
             android:id="@+id/textView12"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Nombre"
+            android:text="Contributor"
             android:textSize="24sp" />
     </LinearLayout>
 
@@ -116,7 +116,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Cosas" />
+            android:text="Nuevo Botón" />
     </LinearLayout>
 
     <LinearLayout
