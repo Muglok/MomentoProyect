@@ -1,0 +1,45 @@
+<resources>
+    <string name="app_name">Practica Móviles</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Jesus Salas</string>
+    <string name="nav_header_subtitle">jsalasdam@gmail.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="opciones_extra">Opciones Extra</string>
+    <string name="opciones_extraº">Opciones Extra</string>
+    <string name="bar_settings">Preferencias</string>
+    <string name="title_activity_preferencias">Settings</string>
+    <string name="datos_alumno">Datos Almuno</string>
+    <string name="string_password">password</string>
+
+    <!-- Strings related to Settings -->
+
+    <string-array name="pais">
+        <item>España</item>
+        <item>Francia</item>
+        <item>Alemania</item>
+    </string-array>
+
+    <string-array name="codigopais">
+        <item>ESP</item>
+        <item>FRA</item>
+        <item>ALE</item>
+    </string-array>
+
+
+    <string-array name="cancion">
+        <item>Cancion 1 </item>
+        <item>Cancion 2</item>
+        <item>Cancion 3</item>
+        <item>Castlevania</item>
+    </string-array>
+
+    <string-array name="codigoCancion">
+        <item>c1</item>
+        <item>c2</item>
+        <item>c3</item>
+        <item>c4</item>
+    </string-array>
+
+</resources>
