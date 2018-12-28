@@ -50,7 +50,7 @@ public class Login extends AppCompatActivity
     boolean usuarioValido = true;
 
     String IP = "http://sinaptycwebs.000webhostapp.com";
-    String GET_BY_ID = IP + "/obtener_usuario_userpass.php";
+    String GET_BY_ID = IP + "/prueba sourcetree.php";
 
     ObtenerWebService hiloconexion;
 

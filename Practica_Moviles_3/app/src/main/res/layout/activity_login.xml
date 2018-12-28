@@ -16,7 +16,7 @@
             android:id="@+id/textViewLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="INICIO DE SESION"
+            android:text="Source Tree"
             android:textAlignment="center"
             android:textSize="36sp"
             android:textStyle="bold" />
@@ -86,7 +86,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Iniciar Sesion"
+            android:text="Te escucho "
             android:textSize="24sp" />
     </LinearLayout>
 
@@ -116,7 +116,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Ver Datos" />
+            android:text="Cosas" />
     </LinearLayout>
 
     <LinearLayout
