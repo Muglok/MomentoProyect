@@ -15,6 +15,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,6 +42,7 @@ import java.net.URL;
 import java.time.LocalTime;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 
 public class Login extends AppCompatActivity {
 
@@ -45,7 +53,6 @@ public class Login extends AppCompatActivity {
 
     String user;
     String pass;
-    String userPass;
     String horaConexion;
     Date currentTime;
 
@@ -54,11 +61,10 @@ public class Login extends AppCompatActivity {
 
 
 
-    //----- Strings para conectar a web services -----------
-    String IP = "http://sinaptycwebs.000webhostapp.com";
-    String GET_BY_ID = IP + "/obtener_usuario_userpass.php";
+    //----- Strings para conectar a web service -----------
+    String postUserPass = "http://momentosandroid.000webhostapp.com/momentosAndroid/obtener_usuario_user_pass.php";
 
-    ObtenerWebService hiloconexion;
+
 
 
     //tarea que comprueba qué ha devuelto el web service y permite acceso a la app
@@ -108,23 +114,73 @@ public class Login extends AppCompatActivity {
 
                 user = editTextUser.getText().toString();
                 pass = editTextPassword.getText().toString();
-                userPass = user+pass;
 
-                hiloconexion = new ObtenerWebService();
-                String cadenallamada = GET_BY_ID + "?idalumno=" + userPass;
-                hiloconexion.execute(cadenallamada,"2");   // Parámetros que recibe doInBackground
+                //----------------- Volley POST User Pass -------------------------
+                //queue
+                RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
 
+                //recogemos params
+
+
+                // Mapeo de los pares clave-valor
+                HashMap<String, String>   parametros = new HashMap();
+                parametros.put("nombre", user);
+                parametros.put("contrasenya", pass);
+
+                JsonObjectRequest jsArrayRequest = new JsonObjectRequest(
+                        Request.Method.POST,
+                        postUserPass,
+                        new JSONObject(parametros),
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+
+                                // Manejo de la respuesta
+                                //Accedemos al vector de resultados
+                                String devuelve = "";
+
+                                try
+                                {
+                                    //Accedemos al vector de resultados
+
+                                    String resultJSON = response.getString("estado");   // estado es el nombre del campo en el JSON
+
+                                    //resultado.setText(resultJSON);
+
+                                    if (resultJSON=="1"){      // hay un alumno que mostrar
+                                        usuarioValido = true;
+                                    }
+                                    else if (resultJSON=="2"){
+                                        usuarioValido = false;
+                                    }
+                                }
+                                catch (JSONException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                            }
+                        },
+                        new Response.ErrorListener() {
+
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                // Manejo de errores
+                              Toast.makeText(getApplicationContext(),"Ha habído un error",Toast.LENGTH_LONG).show();
+                            }
+                        });
+
+                queue.add(jsArrayRequest);
+
+                //------------------------------------------------------------------
 
                 textViewInfo.setText("Buscando Usuario, espere unos instantes...");
                 buttonLogin.setEnabled(false);
 
                 //ejecutamos tarea en un handler
                 Handler handler = new Handler();
-                handler.postDelayed(task, 3000);
-
+                handler.postDelayed(task, 2000);
             }
         });
-
     }
 
 
@@ -134,104 +190,4 @@ public class Login extends AppCompatActivity {
 
         usuarioValido = false;
     }
-
-    //--------------------------------------------------------------
-    //Clase que conecta al servicio web
-    public class ObtenerWebService extends AsyncTask<String,Void,String>{
-
-        @Override
-        protected String doInBackground(String... params) {
-
-            String cadena = params[0];
-            URL url = null; // Url de donde queremos obtener información
-            String devuelve ="";
-
-
-
-             if(params[1]=="2"){    // consulta por id
-
-                try {
-                    url = new URL(cadena);
-                    HttpURLConnection connection = (HttpURLConnection) url.openConnection(); //Abrir la conexión
-                    connection.setRequestProperty("User-Agent", "Mozilla/5.0" +
-                            " (Linux; Android 1.5; es-ES) Ejemplo HTTP");
-                    //connection.setHeader("content-type", "application/json");
-
-                    int respuesta = connection.getResponseCode();
-                    StringBuilder result = new StringBuilder();
-
-                    if (respuesta == HttpURLConnection.HTTP_OK){
-
-
-                        InputStream in = new BufferedInputStream(connection.getInputStream());  // preparo la cadena de entrada
-
-                        BufferedReader reader = new BufferedReader(new InputStreamReader(in));  // la introduzco en un BufferedReader
-
-                        // El siguiente proceso lo hago porque el JSONOBject necesita un String y tengo
-                        // que tranformar el BufferedReader a String. Esto lo hago a traves de un
-                        // StringBuilder.
-
-                        String line;
-                        while ((line = reader.readLine()) != null) {
-                            result.append(line);        // Paso toda la entrada al StringBuilder
-                        }
-
-                        //Creamos un objeto JSONObject para poder acceder a los atributos (campos) del objeto.
-                        JSONObject respuestaJSON = new JSONObject(result.toString());   //Creo un JSONObject a partir del StringBuilder pasado a cadena
-                        //Accedemos al vector de resultados
-
-                        String resultJSON = respuestaJSON.getString("estado");   // estado es el nombre del campo en el JSON
-
-                        if (resultJSON=="1"){      // hay un alumno que mostrar
-                            devuelve = devuelve + respuestaJSON.getJSONObject("alumno").getString("userPass");
-
-                        }
-                        else if (resultJSON=="2"){
-                            devuelve = "No hay alumnos";
-                        }
-
-                    }
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                return devuelve;
-
-            }
-            return "No se han podido obtener los datos";
-        }
-
-        @Override
-        protected void onCancelled(String s) {
-            super.onCancelled(s);
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            if(!s.equals("") )
-            {
-               usuarioValido = true;
-            }
-            else
-            {
-               usuarioValido = false;
-            }
-
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected void onProgressUpdate(Void... values) {
-            super.onProgressUpdate(values);
-        }
-    }
-
 }
