@@ -189,14 +189,19 @@ public class MainActivity extends AppCompatActivity
 
                     String resultJSON = respuestaJSON.getString("estado");   // estado es el nombre del campo en el JSON
 
-
+                    int[] fotos = new int[3];
+                    fotos[0] = R.drawable.aut_1;
+                    fotos[1] = R.drawable.delete_dis;
+                    fotos[2] = R.drawable.dino_1;
+                    fotos[3] = R.drawable.pingu;
+                    fotos[4] = R.drawable.omnovos_dafuq_is_that;
 
                     if (resultJSON=="1")
                     {      // hay alumnos a mostrar
                         JSONArray alumnosJSON = respuestaJSON.getJSONArray("usuarios");   // estado es el nombre del campo en el JSON
                         for(int i=0;i<alumnosJSON.length();i++)
                         {
-                            list.add(new Momento(alumnosJSON.getJSONObject(i).getString("nombre"),alumnosJSON.getJSONObject(i).getString("id"),R.drawable.aut_1));
+                            list.add(new Momento(alumnosJSON.getJSONObject(i).getString("nombre"),alumnosJSON.getJSONObject(i).getString("id"),fotos[i]));
 
                             /*devuelve = devuelve + alumnosJSON.getJSONObject(i).getString("idalumno") + " " +
                                     alumnosJSON.getJSONObject(i).getString("id") + " " +
