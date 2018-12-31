@@ -189,7 +189,7 @@ public class MainActivity extends AppCompatActivity
 
                     String resultJSON = respuestaJSON.getString("estado");   // estado es el nombre del campo en el JSON
 
-                    int[] fotos = new int[3];
+                    int[] fotos = new int[5];
                     fotos[0] = R.drawable.aut_1;
                     fotos[1] = R.drawable.delete_dis;
                     fotos[2] = R.drawable.dino_1;
