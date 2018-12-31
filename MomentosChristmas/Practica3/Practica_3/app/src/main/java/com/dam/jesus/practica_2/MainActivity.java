@@ -29,6 +29,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.time.LocalTime;
 import java.util.ArrayList;
 
@@ -49,7 +60,7 @@ public class MainActivity extends AppCompatActivity
 
     SQLiteDatabase db;
     String datosSelect;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -146,11 +157,74 @@ public class MainActivity extends AppCompatActivity
     {
         recyclerMomentos = findViewById(R.id.RecyclerId);
         recyclerMomentos.setLayoutManager(new LinearLayoutManager(this));
-        llenarMomentos();
+        llenarMomentos2();
 
 
         AdapterMomento adapter = new AdapterMomento(list);
         recyclerMomentos.setAdapter(adapter);
+    }
+
+    private void llenarMomentos2()
+    {
+        String query = "http://momentosandroid.000webhostapp.com/momentosAndroid/obtener_usuarios.php";
+
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, query, new Response.Listener<String>()
+        {
+            @Override
+            public void onResponse(String response)
+            {
+
+                String devuelve = "";
+
+                //Creamos un objeto JSONObject para poder acceder a los atributos (campos) del objeto.
+                try
+                {
+                    //resultado.setText(response);
+
+                    JSONObject respuestaJSON = new JSONObject(response);
+
+                    //Accedemos al vector de resultados
+
+                    String resultJSON = respuestaJSON.getString("estado");   // estado es el nombre del campo en el JSON
+
+
+
+                    if (resultJSON=="1")
+                    {      // hay alumnos a mostrar
+                        JSONArray alumnosJSON = respuestaJSON.getJSONArray("usuarios");   // estado es el nombre del campo en el JSON
+                        for(int i=0;i<alumnosJSON.length();i++)
+                        {
+                            list.add(new Momento(alumnosJSON.getJSONObject(i).getString("nombre"),alumnosJSON.getJSONObject(i).getString("id"),R.drawable.aut_1));
+
+                            /*devuelve = devuelve + alumnosJSON.getJSONObject(i).getString("idalumno") + " " +
+                                    alumnosJSON.getJSONObject(i).getString("id") + " " +
+                                    alumnosJSON.getJSONObject(i).getString("telefono") + "\n";*/
+
+                        }
+                    }
+                    else if (resultJSON=="2"){
+                        devuelve = "No hay alumnos";
+
+                    }
+                }
+                catch (JSONException e)
+                {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener()
+        {
+            @Override
+            public void onErrorResponse(VolleyError error)
+            {
+                String s = "No se pudo realizar la solicitud";
+            }
+        });
+
+        queue.add(stringRequest);
     }
 
     private void llenarMomentos()
