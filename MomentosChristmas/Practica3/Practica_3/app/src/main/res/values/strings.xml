@@ -41,5 +41,6 @@
         <item>c3</item>
         <item>c4</item>
     </string-array>
+    <string name="title_activity_crear_momento">Map</string>
 
 </resources>
