@@ -14,6 +14,8 @@ import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -28,9 +30,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    public static ArrayList<Momento> list;
+    public static RecyclerView recyclerMomentos;
 
     TextView textViewContentMain;
     MediaPlayer mediaPlayer;
@@ -43,13 +49,14 @@ public class MainActivity extends AppCompatActivity
 
     SQLiteDatabase db;
     String datosSelect;
-
-
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        list = new ArrayList<>();
+        llenarRecyclerView();
 
 
         //Recupero datos del bundle pasado de la ventana Login
@@ -133,6 +140,42 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    private void llenarRecyclerView()
+    {
+        recyclerMomentos = findViewById(R.id.RecyclerId);
+        recyclerMomentos.setLayoutManager(new LinearLayoutManager(this));
+        llenarMomentos();
+
+
+        AdapterMomento adapter = new AdapterMomento(list);
+        recyclerMomentos.setAdapter(adapter);
+    }
+
+    private void llenarMomentos()
+    {
+        list.add(new Momento("Gato","A diferencia del de “Oblígame prro”, estos dinosaurios no salieron de una caricatura, en realidad son parte de un juego de Facebook llamado Jurassic Park Builder, un videojuego basado en la franquicia cinematográfica de 1993 y que te permite construir tus propio parque temático con animales extintos. ¿La buena noticia? Jurassic Park Builder está disponible tanto para Android como para iOS.",R.drawable.aut_1));
+        list.add(new Momento("Delete dis","¿La Rosa de Guadalupe se inspiró en este meme para crear un capítulo?\n" +
+                "\n" +
+                "Recorre en internet un video de un capítulo de La Rosa de Guadalupe cuyo capítulo se titula \"Cállese Viejo Lesbiano\". Esto es falso. No existe. Si entran a Wikipedia a ver la lista de capítulos, ninguno lleva ese nombre.",R.drawable.delete_dis));
+        list.add(new Momento("Dino","A diferencia del de “Oblígame prro”, estos dinosaurios no salieron de una caricatura, en realidad son parte de un juego de Facebook llamado Jurassic Park Builder, un videojuego basado en la franquicia cinematográfica de 1993 y que te permite construir tus propio parque temático con animales extintos. ¿La buena noticia? Jurassic Park Builder está disponible tanto para Android como para iOS.\n" +
+                "\n" +
+                "En las redes sociales existen diversos orígenes para estos dinomemes, sobretodo para el famosos de ellos, el \"Cállese Viejo Lesbiano\".",R.drawable.dino_1));
+        list.add(new Momento("Dafuq","Si eres de los que tiene la fortuna de no estar pegado al internet las 24 horas quizás aún no te hayas topado con los dino-memes, pero no te preocupes porque aquí te decimos de qué van.\n" +
+                "\n" +
+                "Se tratan de imágenes de dinosaurios en 3D con curiosas frases o estúpidas. Depende cómo los quieras ver. Muchas de ellas nos provocan mucha risa.\n" +
+                "\n" +
+                "Si de plano no logran ubicarlos mejor les dejamos el más famoso que dice la finísima frase “Cállese viejo lesbiano”",R.drawable.nota_2));
+        list.add(new Momento("Dafuq","La plataforma de videos más popular liberó el trailer de Caballeros del Zodiaco y las redes sociales ardieron con los comentarios de todos los fans. Y es que nadie esperaba ver lo que terminaron viendo.\n" +
+                "\n" +
+                "Ya sea por el estilo de animación o el trabajo de algunas nuevas voces, incluyendo la de Seiya, existe mucho espacio para que los fans de la versión original disparen sus dardos. Más aún, de seguro uno de los elementos que más comentarios generará será el hecho de adaptar a Shun, el caballero de Andrómeda, como mujer.\n" +
+                "\n" +
+                "Vean el tráiler a continuación, en el que por alguna razón hay tanques y artillería pesada atacando a los santos de bronce.",R.drawable.omnovos_dafuq_is_that));
+        list.add(new Momento("Pingu","Internet es un mar profundo de memes. Desde sus origenes hemos visto pasar diversos memes y los Dinomemes son las  últimas tendencias en convertirse viral en las redes sociales. ¿De dónde salieron los Dinomemes? ¿Cómo se originaron? ¿Quién los creó? ¡¡Cállese Viejo Lesbiano!!",R.drawable.pingu));
+        list.add(new Momento("whatafuq","¿\"Cállese Viejo Lesbiano nació de un reality en donde una joven acusa a un señor de acosarla?\n" +
+                "\n" +
+                "También es falso. Existe la historia que ´la frase viene de una entrevista en donde una chica es acosada por un señor, y para poder huir de él, ella le dice que es lesbiana, a lo que él le contesta que también es \"lesbiano\" y continua acosándola. Entonces alguien le grita al señor \"¡cállese, viejo lesbiano!\"",R.drawable.photo5834437103243603928));
     }
 
     @Override
