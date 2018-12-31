@@ -195,13 +195,15 @@ public class MainActivity extends AppCompatActivity
                     fotos[2] = R.drawable.dino_1;
                     fotos[3] = R.drawable.pingu;
                     fotos[4] = R.drawable.omnovos_dafuq_is_that;
+                    int num;
 
                     if (resultJSON=="1")
                     {      // hay alumnos a mostrar
                         JSONArray alumnosJSON = respuestaJSON.getJSONArray("usuarios");   // estado es el nombre del campo en el JSON
                         for(int i=0;i<alumnosJSON.length();i++)
                         {
-                            list.add(new Momento(alumnosJSON.getJSONObject(i).getString("nombre"),alumnosJSON.getJSONObject(i).getString("id"),fotos[i]));
+                            num = i % 3;
+                            list.add(new Momento(alumnosJSON.getJSONObject(i).getString("nombre"),alumnosJSON.getJSONObject(i).getString("telefono"),fotos[num]));
 
                             /*devuelve = devuelve + alumnosJSON.getJSONObject(i).getString("idalumno") + " " +
                                     alumnosJSON.getJSONObject(i).getString("id") + " " +
