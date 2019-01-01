@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
@@ -39,9 +38,8 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.concurrent.CountDownLatch;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -151,17 +149,16 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
     }
+
+
 
     private void llenarRecyclerView()
     {
         recyclerMomentos = findViewById(R.id.RecyclerId);
         recyclerMomentos.setLayoutManager(new LinearLayoutManager(this));
         llenarMomentos2();
-
-
-        AdapterMomento adapter = new AdapterMomento(list);
-        recyclerMomentos.setAdapter(adapter);
     }
 
     private void llenarMomentos2()
@@ -169,25 +166,15 @@ public class MainActivity extends AppCompatActivity
         String query = "http://momentosandroid.000webhostapp.com/momentosAndroid/obtener_usuarios.php";
 
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-
         StringRequest stringRequest = new StringRequest(Request.Method.GET, query, new Response.Listener<String>()
         {
             @Override
             public void onResponse(String response)
             {
-
-                String devuelve = "";
-
-                //Creamos un objeto JSONObject para poder acceder a los atributos (campos) del objeto.
                 try
                 {
-                    //resultado.setText(response);
-
                     JSONObject respuestaJSON = new JSONObject(response);
-
-                    //Accedemos al vector de resultados
-
-                    String resultJSON = respuestaJSON.getString("estado");   // estado es el nombre del campo en el JSON
+                    String resultJSON = respuestaJSON.getString("estado");
 
                     int[] fotos = new int[5];
                     fotos[0] = R.drawable.aut_1;
@@ -198,23 +185,17 @@ public class MainActivity extends AppCompatActivity
                     int num;
 
                     if (resultJSON=="1")
-                    {      // hay alumnos a mostrar
-                        JSONArray alumnosJSON = respuestaJSON.getJSONArray("usuarios");   // estado es el nombre del campo en el JSON
+                    {
+                        JSONArray alumnosJSON = respuestaJSON.getJSONArray("usuarios");
                         for(int i=0;i<alumnosJSON.length();i++)
                         {
                             num = i % 3;
                             list.add(new Momento(alumnosJSON.getJSONObject(i).getString("nombre"),alumnosJSON.getJSONObject(i).getString("telefono"),fotos[num]));
 
-                            /*devuelve = devuelve + alumnosJSON.getJSONObject(i).getString("idalumno") + " " +
-                                    alumnosJSON.getJSONObject(i).getString("id") + " " +
-                                    alumnosJSON.getJSONObject(i).getString("telefono") + "\n";*/
-
                         }
                     }
-                    else if (resultJSON=="2"){
-                        devuelve = "No hay alumnos";
-
-                    }
+                    AdapterMomento adapter = new AdapterMomento(list);
+                    recyclerMomentos.setAdapter(adapter);
                 }
                 catch (JSONException e)
                 {
@@ -232,6 +213,8 @@ public class MainActivity extends AppCompatActivity
         });
 
         queue.add(stringRequest);
+
+
     }
 
     private void llenarMomentos()
