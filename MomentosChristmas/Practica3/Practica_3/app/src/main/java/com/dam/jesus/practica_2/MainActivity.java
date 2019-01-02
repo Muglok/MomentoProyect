@@ -39,18 +39,18 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.concurrent.CountDownLatch;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     public static ArrayList<Momento> list;
+    public static ArrayList<Momento2> list_momentos;
     public static RecyclerView recyclerMomentos;
 
-    TextView textViewContentMain;
     MediaPlayer mediaPlayer;
     boolean musicOn;
-    ImageView imageViewContentMain;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     String horaConexion;
     String user;
@@ -65,7 +65,8 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         list = new ArrayList<>();
-        llenarRecyclerView();
+        list_momentos = new ArrayList<>();
+        construirRecycler2();
 
 
         //Recupero datos del bundle pasado de la ventana Login
@@ -117,7 +118,6 @@ public class MainActivity extends AppCompatActivity
         //Cerrar BD
         //db.close();
 
-        textViewContentMain = (TextView) findViewById(R.id.textViewContentMain);
         //Con esto enlazamos los controles de volumen con el stream music
         this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
@@ -127,10 +127,7 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         //cargo mediaPlayer
-        mediaPlayer =  mediaPlayer.create(this,R.raw.cancion1);
-
-        //Me enlazo con el imageView
-        imageViewContentMain = (ImageView) findViewById(R.id.imageViewContentMain);
+        mediaPlayer =  mediaPlayer.create(this,R.raw.cancion1);;
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -154,11 +151,31 @@ public class MainActivity extends AppCompatActivity
 
 
 
-    private void llenarRecyclerView()
+    private void construirRecycler()
     {
         recyclerMomentos = findViewById(R.id.RecyclerId);
         recyclerMomentos.setLayoutManager(new LinearLayoutManager(this));
         llenarMomentos2();
+    }
+
+    private void construirRecycler2()
+    {
+        recyclerMomentos = findViewById(R.id.RecyclerId);
+        recyclerMomentos.setLayoutManager(new LinearLayoutManager(this));
+        llenarMomentos3();
+        AdapterMomentos2 adapter = new AdapterMomentos2(list_momentos);
+
+        adapter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(),
+                        "Seleccion: " + list_momentos.get
+                                (recyclerMomentos.getChildAdapterPosition(view))
+                                .getTitulo(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        recyclerMomentos.setAdapter(adapter);
     }
 
     private void llenarMomentos2()
@@ -195,6 +212,17 @@ public class MainActivity extends AppCompatActivity
                         }
                     }
                     AdapterMomento adapter = new AdapterMomento(list);
+
+                    adapter.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Toast.makeText(getApplicationContext(),
+                                    "Seleccion: " + list.get
+                                            (recyclerMomentos.getChildAdapterPosition(view))
+                                            .getNombre(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
                     recyclerMomentos.setAdapter(adapter);
                 }
                 catch (JSONException e)
@@ -242,6 +270,13 @@ public class MainActivity extends AppCompatActivity
                 "También es falso. Existe la historia que ´la frase viene de una entrevista en donde una chica es acosada por un señor, y para poder huir de él, ella le dice que es lesbiana, a lo que él le contesta que también es \"lesbiano\" y continua acosándola. Entonces alguien le grita al señor \"¡cállese, viejo lesbiano!\"",R.drawable.photo5834437103243603928));
     }
 
+    private void llenarMomentos3()
+    {
+        list_momentos.add(new Momento2(1,"Fiesta de año nuevo","Fiesta en casa de gudetama celebrando el 2019","Dino crisis soundtrack",383451700,-0.4814900,new Date("31/12/2018"),2));
+        list_momentos.add(new Momento2(2,"Music Rock festival","Concierto rock en el campus de la UA","Fiesta pagana",383451700,-0.4814900,new Date("05/08/2018 12:25"),4));
+        list_momentos.add(new Momento2(3,"Estreno mundial Avengers 17","Otra pelicula mas","NO",383451700,-0.4814900,new Date("22/05/2018 13:05"),5));
+     }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -274,16 +309,13 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.datos_alumno) {
-            textViewContentMain.setText(mensajeDatosAlumno);
-            textViewContentMain.setVisibility(View.VISIBLE);
-            imageViewContentMain.setVisibility(View.GONE);
             return true;
         }
 
         if (id == R.id.preferencias) {
             String texto = "";
             texto = "Le hemos dado a preferencias";
-            textViewContentMain.setText(texto);
+
             //Aqui hacemos un intent para abrir la activity de preferencias
             Intent intent = new Intent(this, Preferencias.class);
             startActivity(intent);
@@ -296,8 +328,6 @@ public class MainActivity extends AppCompatActivity
             texto += "Nombre de usuario: " + pref.getString("contrasena", "1234") + "\n";
             texto += "Opcion 3: " + pref.getString("opcion3", "default") + "\n";
             texto += "Cancion elegída: " + pref.getString("listaCanciones", "default") + "\n";
-
-            textViewContentMain.setText(texto);
             return true;
         }
 
@@ -374,9 +404,6 @@ public class MainActivity extends AppCompatActivity
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
             }
 
-            //oculto textview y muestro imagen
-            textViewContentMain.setVisibility(View.GONE);
-            imageViewContentMain.setVisibility(View.VISIBLE);
 
         } else if (id == R.id.nav_accesos) {
             //Vamos a Activity Accesos
@@ -453,7 +480,7 @@ public class MainActivity extends AppCompatActivity
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
-            imageViewContentMain.setImageBitmap(imageBitmap);
+            //imageViewContentMain.setImageBitmap(imageBitmap);
         }
     }
 

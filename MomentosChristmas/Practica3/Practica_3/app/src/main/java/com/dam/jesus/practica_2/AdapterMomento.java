@@ -9,9 +9,11 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class AdapterMomento extends RecyclerView.Adapter<AdapterMomento.ViewHolderDatos>{
+public class AdapterMomento extends RecyclerView.Adapter<AdapterMomento.ViewHolderDatos>
+implements View.OnClickListener {
 
     ArrayList<Momento> listaPersonajes;
+    private View.OnClickListener listener;
 
     public AdapterMomento(ArrayList<Momento> listaPersonajes) {
         this.listaPersonajes = listaPersonajes;
@@ -21,6 +23,8 @@ public class AdapterMomento extends RecyclerView.Adapter<AdapterMomento.ViewHold
     public ViewHolderDatos onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_list,null,false);
+        view.setOnClickListener(this);
+
         return new ViewHolderDatos(view);
     }
 
@@ -34,6 +38,19 @@ public class AdapterMomento extends RecyclerView.Adapter<AdapterMomento.ViewHold
     @Override
     public int getItemCount() {
         return listaPersonajes.size();
+    }
+
+    public void setOnClickListener(View.OnClickListener listener)
+    {
+        this.listener = listener;
+    }
+
+    @Override
+    public void onClick(View view) {
+        if(listener != null){
+            listener.onClick(view);
+        }
+
     }
 
     public class ViewHolderDatos extends RecyclerView.ViewHolder {
