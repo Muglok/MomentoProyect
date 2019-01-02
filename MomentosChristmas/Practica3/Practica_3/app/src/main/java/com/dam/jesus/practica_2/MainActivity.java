@@ -55,6 +55,8 @@ public class MainActivity extends AppCompatActivity
     String horaConexion;
     String user;
     String pass;
+    String telefono;
+    int id;
 
     SQLiteDatabase db;
     String datosSelect;
@@ -74,6 +76,9 @@ public class MainActivity extends AppCompatActivity
         horaConexion = b.getString("horaConexion");
         user = b.getString("user");
         pass = b.getString("pass");
+        telefono = b.getString("telefono");
+        id = b.getInt("id");
+
 
         //Toast.makeText(this,"Hora conexion recibida: "+horaConexion+" usuario: "+user,Toast.LENGTH_LONG).show();
 

@@ -7,10 +7,11 @@ public class Usuario {
    String contrasenya;
    String telefono;
 
-    public Usuario(int id, String nombre, String contrasenya) {
+    public Usuario(int id, String nombre, String contrasenya, String telefono) {
         this.id = id;
         this.nombre = nombre;
         this.contrasenya = contrasenya;
+        this.telefono = telefono;
     }
 
     public String getNombre() {

@@ -56,6 +56,9 @@ public class Login extends AppCompatActivity {
 
     String user;
     String pass;
+    int id;
+    String telefono;
+
     String horaConexion;
     Date currentTime;
 
@@ -80,7 +83,7 @@ public class Login extends AppCompatActivity {
 
             if(usuarioValido)
             {
-                /*
+
                 currentTime = Calendar.getInstance().getTime();
                 horaConexion = currentTime.toString();
 
@@ -90,10 +93,12 @@ public class Login extends AppCompatActivity {
                 b.putString("horaConexion",horaConexion);
                 b.putString("user",user);
                 b.putString("pass",pass);
+                b.putString("telefono",telefono);
+                b.putInt("id",id);
                 intent.putExtras(b);
                 // abro ventana
                 startActivity(intent);
-                */
+
             }
             else
             {
@@ -161,16 +166,11 @@ public class Login extends AppCompatActivity {
                                         usuarioValido = true;
 
                                         //Creamos un objeto de ese usuario
-                                        devuelve = devuelve + response.getJSONObject("usuario").getString("nombre")
-                                                + " " +
-                                                response.getJSONObject("usuario").getString("contrasenya");
-                                                /*
-                                                + " " +
-                                                response.getJSONObject("alumno").getString("direccion");
-                                                */
+                                         id = response.getJSONObject("usuario").getInt("id");
+                                         telefono = response.getJSONObject("usuario").getString("telefono");
 
-
-                                        Toast.makeText(getApplicationContext(), devuelve, Toast.LENGTH_LONG).show();
+                                        //-- Creamos objeto usuario
+                                        //currentUser = new Usuario(id,user,pass,telefono);
                                     }
                                     else if (resultJSON=="2"){
                                         usuarioValido = false;
