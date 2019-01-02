@@ -47,10 +47,8 @@ public class MainActivity extends AppCompatActivity
     public static ArrayList<Momento> list;
     public static RecyclerView recyclerMomentos;
 
-    TextView textViewContentMain;
     MediaPlayer mediaPlayer;
     boolean musicOn;
-    ImageView imageViewContentMain;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     String horaConexion;
     String user;
@@ -65,7 +63,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         list = new ArrayList<>();
-        llenarRecyclerView();
+        construirRecycler();
 
 
         //Recupero datos del bundle pasado de la ventana Login
@@ -117,7 +115,6 @@ public class MainActivity extends AppCompatActivity
         //Cerrar BD
         //db.close();
 
-        textViewContentMain = (TextView) findViewById(R.id.textViewContentMain);
         //Con esto enlazamos los controles de volumen con el stream music
         this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
@@ -127,10 +124,7 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         //cargo mediaPlayer
-        mediaPlayer =  mediaPlayer.create(this,R.raw.cancion1);
-
-        //Me enlazo con el imageView
-        imageViewContentMain = (ImageView) findViewById(R.id.imageViewContentMain);
+        mediaPlayer =  mediaPlayer.create(this,R.raw.cancion1);;
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -154,7 +148,7 @@ public class MainActivity extends AppCompatActivity
 
 
 
-    private void llenarRecyclerView()
+    private void construirRecycler()
     {
         recyclerMomentos = findViewById(R.id.RecyclerId);
         recyclerMomentos.setLayoutManager(new LinearLayoutManager(this));
@@ -195,6 +189,17 @@ public class MainActivity extends AppCompatActivity
                         }
                     }
                     AdapterMomento adapter = new AdapterMomento(list);
+
+                    adapter.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Toast.makeText(getApplicationContext(),
+                                    "Seleccion: " + list.get
+                                            (recyclerMomentos.getChildAdapterPosition(view))
+                                            .getNombre(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
                     recyclerMomentos.setAdapter(adapter);
                 }
                 catch (JSONException e)
@@ -274,16 +279,13 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.datos_alumno) {
-            textViewContentMain.setText(mensajeDatosAlumno);
-            textViewContentMain.setVisibility(View.VISIBLE);
-            imageViewContentMain.setVisibility(View.GONE);
             return true;
         }
 
         if (id == R.id.preferencias) {
             String texto = "";
             texto = "Le hemos dado a preferencias";
-            textViewContentMain.setText(texto);
+
             //Aqui hacemos un intent para abrir la activity de preferencias
             Intent intent = new Intent(this, Preferencias.class);
             startActivity(intent);
@@ -296,8 +298,6 @@ public class MainActivity extends AppCompatActivity
             texto += "Nombre de usuario: " + pref.getString("contrasena", "1234") + "\n";
             texto += "Opcion 3: " + pref.getString("opcion3", "default") + "\n";
             texto += "Cancion elegída: " + pref.getString("listaCanciones", "default") + "\n";
-
-            textViewContentMain.setText(texto);
             return true;
         }
 
@@ -374,9 +374,6 @@ public class MainActivity extends AppCompatActivity
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
             }
 
-            //oculto textview y muestro imagen
-            textViewContentMain.setVisibility(View.GONE);
-            imageViewContentMain.setVisibility(View.VISIBLE);
 
         } else if (id == R.id.nav_accesos) {
             //Vamos a Activity Accesos
@@ -453,7 +450,7 @@ public class MainActivity extends AppCompatActivity
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
-            imageViewContentMain.setImageBitmap(imageBitmap);
+            //imageViewContentMain.setImageBitmap(imageBitmap);
         }
     }
 
