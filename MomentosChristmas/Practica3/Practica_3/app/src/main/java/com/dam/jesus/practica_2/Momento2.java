@@ -7,12 +7,12 @@ public class Momento2
     private String titulo;
     private String descripcion;
     private String cancion;
-    private float latitud;
-    private float longitud;
+    private double latitud;
+    private double longitud;
     private Date fechaYhora;
     private int idUsuario;
 
-    public Momento2(int id, String titulo, String descripcion, String cancion, float latitud, float longitud, Date fechaYhora, int idUsuario) {
+    public Momento2(int id, String titulo, String descripcion, String cancion, double latitud, double longitud, Date fechaYhora, int idUsuario) {
         this.id = id;
         this.titulo = titulo;
         this.descripcion = descripcion;
@@ -55,7 +55,7 @@ public class Momento2
         this.cancion = cancion;
     }
 
-    public float getLatitud() {
+    public double getLatitud() {
         return latitud;
     }
 
@@ -63,7 +63,7 @@ public class Momento2
         this.latitud = latitud;
     }
 
-    public float getLongitud() {
+    public double getLongitud() {
         return longitud;
     }
 

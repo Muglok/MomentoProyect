@@ -39,12 +39,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.concurrent.CountDownLatch;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     public static ArrayList<Momento> list;
+    public static ArrayList<Momento2> list_momentos;
     public static RecyclerView recyclerMomentos;
 
     MediaPlayer mediaPlayer;
@@ -63,7 +65,8 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         list = new ArrayList<>();
-        construirRecycler();
+        list_momentos = new ArrayList<>();
+        construirRecycler2();
 
 
         //Recupero datos del bundle pasado de la ventana Login
@@ -153,6 +156,26 @@ public class MainActivity extends AppCompatActivity
         recyclerMomentos = findViewById(R.id.RecyclerId);
         recyclerMomentos.setLayoutManager(new LinearLayoutManager(this));
         llenarMomentos2();
+    }
+
+    private void construirRecycler2()
+    {
+        recyclerMomentos = findViewById(R.id.RecyclerId);
+        recyclerMomentos.setLayoutManager(new LinearLayoutManager(this));
+        llenarMomentos3();
+        AdapterMomentos2 adapter = new AdapterMomentos2(list_momentos);
+
+        adapter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(),
+                        "Seleccion: " + list_momentos.get
+                                (recyclerMomentos.getChildAdapterPosition(view))
+                                .getTitulo(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        recyclerMomentos.setAdapter(adapter);
     }
 
     private void llenarMomentos2()
@@ -246,6 +269,13 @@ public class MainActivity extends AppCompatActivity
                 "\n" +
                 "También es falso. Existe la historia que ´la frase viene de una entrevista en donde una chica es acosada por un señor, y para poder huir de él, ella le dice que es lesbiana, a lo que él le contesta que también es \"lesbiano\" y continua acosándola. Entonces alguien le grita al señor \"¡cállese, viejo lesbiano!\"",R.drawable.photo5834437103243603928));
     }
+
+    private void llenarMomentos3()
+    {
+        list_momentos.add(new Momento2(1,"Fiesta de año nuevo","Fiesta en casa de gudetama celebrando el 2019","Dino crisis soundtrack",383451700,-0.4814900,new Date("31/12/2018"),2));
+        list_momentos.add(new Momento2(2,"Music Rock festival","Concierto rock en el campus de la UA","Fiesta pagana",383451700,-0.4814900,new Date("05/08/2018 12:25"),4));
+        list_momentos.add(new Momento2(3,"Estreno mundial Avengers 17","Otra pelicula mas","NO",383451700,-0.4814900,new Date("22/05/2018 13:05"),5));
+     }
 
     @Override
     public void onBackPressed() {
