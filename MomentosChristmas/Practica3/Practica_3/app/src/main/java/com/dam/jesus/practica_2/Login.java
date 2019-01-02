@@ -59,6 +59,8 @@ public class Login extends AppCompatActivity {
     String horaConexion;
     Date currentTime;
 
+    Usuario currentUser;
+
     boolean usuarioValido = false;
 
 
@@ -66,7 +68,6 @@ public class Login extends AppCompatActivity {
 
     //----- Strings para conectar a web service -----------
     String postUserPass = "http://momentosandroid.000webhostapp.com/momentosAndroid/obtener_usuario_user_pass.php";
-
 
 
 
@@ -79,8 +80,10 @@ public class Login extends AppCompatActivity {
 
             if(usuarioValido)
             {
+                /*
                 currentTime = Calendar.getInstance().getTime();
                 horaConexion = currentTime.toString();
+
 
                 Intent intent = new Intent(Login.this,MainActivity.class);
                 Bundle b = new Bundle();
@@ -90,6 +93,7 @@ public class Login extends AppCompatActivity {
                 intent.putExtras(b);
                 // abro ventana
                 startActivity(intent);
+                */
             }
             else
             {
@@ -125,7 +129,7 @@ public class Login extends AppCompatActivity {
                 //recogemos params
 
 
-                // Mapeo de los pares clave-valor
+                //Mapeo de los pares clave-valor
                 HashMap<String, String>   parametros = new HashMap();
                 parametros.put("nombre", user);
                 parametros.put("contrasenya", pass);
@@ -153,7 +157,20 @@ public class Login extends AppCompatActivity {
                                     //resultado.setText(resultJSON);
 
                                     if (resultJSON=="1"){      // hay un alumno que mostrar
+
                                         usuarioValido = true;
+
+                                        //Creamos un objeto de ese usuario
+                                        devuelve = devuelve + response.getJSONObject("usuario").getString("nombre")
+                                                + " " +
+                                                response.getJSONObject("usuario").getString("contrasenya");
+                                                /*
+                                                + " " +
+                                                response.getJSONObject("alumno").getString("direccion");
+                                                */
+
+
+                                        Toast.makeText(getApplicationContext(), devuelve, Toast.LENGTH_LONG).show();
                                     }
                                     else if (resultJSON=="2"){
                                         usuarioValido = false;

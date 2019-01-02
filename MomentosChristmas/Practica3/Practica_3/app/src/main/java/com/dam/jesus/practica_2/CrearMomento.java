@@ -3,6 +3,12 @@ package com.dam.jesus.practica_2;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -25,10 +31,15 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
@@ -36,10 +47,15 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 public class CrearMomento extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    double numero;
 
     double latitude;
     double longitude;
+
+    EditText titulo;
+    EditText descripcion;
+    EditText cancion;
+
+    Button guardarMomento;
 
 
     //estos son arrays para gestionar los permisos
@@ -60,6 +76,11 @@ public class CrearMomento extends FragmentActivity implements OnMapReadyCallback
         //------------------- Location Tracking --------------------------
         permissions.add(ACCESS_FINE_LOCATION);
         permissions.add(ACCESS_COARSE_LOCATION);
+
+        titulo = findViewById((R.id.editTextTitulo));
+        descripcion = findViewById(R.id.editTextDescripcion);
+        cancion = findViewById(R.id.editTextCancion);
+        guardarMomento = findViewById(R.id.guardarMomento);
 
         permissionsToRequest = findUnAskedPermissions(permissions);
         //Cogemos los permisos que no están todavía dados.
@@ -116,6 +137,76 @@ public class CrearMomento extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+
+        guardarMomento.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                //-------------------------------- Insertar con Volley -------------------
+                RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+
+                String url ="http://momentosandroid.000webhostapp.com/momentosAndroid/insertar_momento.php";
+                String tituloParam = titulo.getText().toString();
+                String descripcionParam = descripcion.getText().toString();
+                String cancionParam = cancion.getText().toString();
+
+                // Mapeo de los pares clave-valor
+                HashMap<String, String> parametros = new HashMap();
+                parametros.put("titulo", tituloParam);
+                parametros.put("descripcion", descripcionParam);
+                parametros.put("cancion", cancionParam);
+
+
+                JsonObjectRequest jsArrayRequest = new JsonObjectRequest(
+                        Request.Method.POST,
+                        url,
+                        new JSONObject(parametros),
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                // Manejo de la respuesta
+
+
+                                //Accedemos al vector de resultados
+
+                                String devuelve = "";
+
+                                String resultJSON = null;   // estado es el nombre del campo en el JSON
+                                try {
+                                    resultJSON = response.getString("estado");
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                                if (resultJSON == "1") {      // hay un alumno que mostrar
+                                    devuelve = "Alumno insertado correctamente";
+                                    //resultado.setText(devuelve);
+
+                                } else if (resultJSON == "2") {
+                                    devuelve = "El alumno no pudo insertarse";
+                                    //resultado.setText(devuelve);
+                                }
+
+
+                                //resultado.setText(devuelve);
+                            }
+                        },
+                        new Response.ErrorListener() {
+
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                // Manejo de errores
+                                //resultado.setText("Ha habído un error");
+                            }
+                        });
+
+
+                queue.add(jsArrayRequest);
+
+                //------------------------------------------------------------------------
+
+                //Toast.makeText(getApplicationContext(), "Momento guardado", Toast.LENGTH_LONG).show();
+            }
+        });
 
     }
 
