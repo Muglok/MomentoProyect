@@ -136,7 +136,6 @@ public class Login extends AppCompatActivity {
 
                 //recogemos params
 
-
                 //Mapeo de los pares clave-valor
                 HashMap<String, String>   parametros = new HashMap();
                 parametros.put("nombre", user);
