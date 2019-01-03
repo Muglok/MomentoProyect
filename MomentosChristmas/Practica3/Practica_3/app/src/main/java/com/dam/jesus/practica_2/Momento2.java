@@ -9,24 +9,21 @@ public class Momento2
     private String cancion;
     private double latitud;
     private double longitud;
-
-    private int idUsuario;
-
     private String fecha;
     private String hora;
-
+    private int idUsuario;
     private int compartido;
 
-    public Momento2(int id, String titulo, String descripcion, String cancion, double latitud, double longitud, int idUsuario, String fecha, String hora) {
+    public Momento2(int id, String titulo, String descripcion, String cancion, double latitud, double longitud, String fecha, String hora, int idUsuario) {
         this.id = id;
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.cancion = cancion;
         this.latitud = latitud;
         this.longitud = longitud;
-        this.idUsuario = idUsuario;
         this.fecha = fecha;
         this.hora = hora;
+        this.idUsuario = idUsuario;
         this.compartido = 0;
     }
 

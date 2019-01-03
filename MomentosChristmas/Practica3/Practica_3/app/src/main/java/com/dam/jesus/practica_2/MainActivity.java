@@ -32,6 +32,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -40,6 +41,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.concurrent.CountDownLatch;
 
 public class MainActivity extends AppCompatActivity
@@ -167,7 +169,7 @@ public class MainActivity extends AppCompatActivity
     {
         recyclerMomentos = findViewById(R.id.RecyclerId);
         recyclerMomentos.setLayoutManager(new LinearLayoutManager(this));
-        llenarMomentos3();
+        llenarMomentosCompartidos();
         AdapterMomentos2 adapter = new AdapterMomentos2(list_momentos);
 
         adapter.setOnClickListener(new View.OnClickListener() {
@@ -185,7 +187,7 @@ public class MainActivity extends AppCompatActivity
 
     private void llenarMomentos2()
     {
-        String query = "http://momentosandroid.000webhostapp.com/momentosAndroid/obtener_usuarios.php";
+        String query = "http://momentosandroid.000webhostapp.com/momentosAndroid/obtener_momentos.php";
 
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         StringRequest stringRequest = new StringRequest(Request.Method.GET, query, new Response.Listener<String>()
@@ -198,31 +200,40 @@ public class MainActivity extends AppCompatActivity
                     JSONObject respuestaJSON = new JSONObject(response);
                     String resultJSON = respuestaJSON.getString("estado");
 
-                    int[] fotos = new int[5];
-                    fotos[0] = R.drawable.aut_1;
-                    fotos[1] = R.drawable.delete_dis;
-                    fotos[2] = R.drawable.dino_1;
-                    fotos[3] = R.drawable.pingu;
-                    fotos[4] = R.drawable.omnovos_dafuq_is_that;
-                    int num;
-
                     if (resultJSON=="1")
                     {
-                        JSONArray alumnosJSON = respuestaJSON.getJSONArray("usuarios");
-                        for(int i=0;i<alumnosJSON.length();i++)
-                        {
-                            num = i % 3;
-                            list.add(new Momento(alumnosJSON.getJSONObject(i).getString("nombre"),alumnosJSON.getJSONObject(i).getString("telefono"),fotos[num]));
+                       /* list_momentos.add(new Momento2(1,"Fiesta de año nuevo","Fiesta en casa de gudetama celebrando el 2019","Dino crisis soundtrack",383451700,-0.4814900,2,"03/10/2019","12:30"));
+                        list_momentos.add(new Momento2(2,"Music Rock festival","Concierto rock en el campus de la UA","Fiesta pagana",383451700,-0.4814900,2,"03/10/2019","12:30"));
+                        list_momentos.add(new Momento2(3,"Estreno mundial Avengers 17","Otra pelicula mas","NO",383451700,-0.4814900,2,"03/10/2019","12:30"));
+*/
 
+                        JSONArray momentosJSON = respuestaJSON.getJSONArray("momentos");
+                        for(int i=0;i<momentosJSON.length();i++)
+                        {
+                            Momento2 momento = new Momento2(
+                                    momentosJSON.getJSONObject(i).getInt("id"),
+                                    momentosJSON.getJSONObject(i).getString("titulo"),
+                                    momentosJSON.getJSONObject(i).getString("descripcion"),
+                                    momentosJSON.getJSONObject(i).getString("cancion"),
+                                    momentosJSON.getJSONObject(i).getDouble("latitud"),
+                                    momentosJSON.getJSONObject(i).getDouble("longitud"),
+                                    momentosJSON.getJSONObject(i).getString("fecha"),
+                                    momentosJSON.getJSONObject(i).getString("hora"),
+                                    momentosJSON.getJSONObject(i).getInt("idusuario") );
+
+                            //Momento2 momento = new Momento2(3,momentosJSON.getJSONObject(i).getString("titulo"),"Otra pelicula mas","NO",383451700,-0.4814900,"03/10/2019","12:30",2);
+
+
+                            list_momentos.add(momento);
                         }
                     }
-                    AdapterMomento adapter = new AdapterMomento(list);
+                    AdapterMomentos2 adapter = new AdapterMomentos2(list_momentos);
 
                     adapter.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
 
-                            //pasarDatosActivity(list.get(recyclerMomentos.getChildAdapterPosition(view)));
+                            //pasarDatosActivity(list_momentos.get(recyclerMomentos.getChildAdapterPosition(view)));
 
                             Toast.makeText(getApplicationContext(),
                                     "Seleccion: " + list.get
@@ -252,7 +263,6 @@ public class MainActivity extends AppCompatActivity
 
         queue.add(stringRequest);
 
-
     }
 
     private void llenarMomentos()
@@ -280,14 +290,143 @@ public class MainActivity extends AppCompatActivity
                 "También es falso. Existe la historia que ´la frase viene de una entrevista en donde una chica es acosada por un señor, y para poder huir de él, ella le dice que es lesbiana, a lo que él le contesta que también es \"lesbiano\" y continua acosándola. Entonces alguien le grita al señor \"¡cállese, viejo lesbiano!\"",R.drawable.photo5834437103243603928));
     }
 
-    private void llenarMomentos3()
+    private void llenarMisMomentos()
     {
-        /*
-        list_momentos.add(new Momento2(1,"Fiesta de año nuevo","Fiesta en casa de gudetama celebrando el 2019","Dino crisis soundtrack",383451700,-0.4814900,new Date("31/12/2018"),2));
-        list_momentos.add(new Momento2(2,"Music Rock festival","Concierto rock en el campus de la UA","Fiesta pagana",383451700,-0.4814900,new Date("05/08/2018 12:25"),4));
-        list_momentos.add(new Momento2(3,"Estreno mundial Avengers 17","Otra pelicula mas","NO",383451700,-0.4814900,new Date("22/05/2018 13:05"),5));
-        */
+        String query = "http://momentosandroid.000webhostapp.com/momentosAndroid/obtener_momentos_por_id_usuario.php";
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+
+        HashMap<String, Object> parametros = new HashMap<String,Object>();
+        parametros.put("idusuario", Login.id);
+
+        JsonObjectRequest jsArrayRequest = new JsonObjectRequest(Request.Method.POST, query,
+        new JSONObject(parametros), new Response.Listener<JSONObject>()
+        {
+            @Override
+            public void onResponse(JSONObject response)
+            {
+                try
+                {
+                    JSONObject respuestaJSON = response;
+                    String resultJSON = respuestaJSON.getString("estado");
+
+                    if (resultJSON=="1")
+                    {
+                        JSONArray momentosJSON = respuestaJSON.getJSONArray("momentos");
+                        Toast.makeText(getApplicationContext(),
+                                "Seleccion: " + momentosJSON.length(), Toast.LENGTH_SHORT).show();
+                        for(int i=0;i<momentosJSON.length();i++)
+                        {
+                            Momento2 momento = new Momento2(
+                                    momentosJSON.getJSONObject(i).getInt("id"),
+                                    momentosJSON.getJSONObject(i).getString("titulo"),
+                                    momentosJSON.getJSONObject(i).getString("descripcion"),
+                                    momentosJSON.getJSONObject(i).getString("cancion"),
+                                    momentosJSON.getJSONObject(i).getDouble("latitud"),
+                                    momentosJSON.getJSONObject(i).getDouble("longitud"),
+                                    momentosJSON.getJSONObject(i).getString("fecha"),
+                                    momentosJSON.getJSONObject(i).getString("hora"),
+                                    momentosJSON.getJSONObject(i).getInt("idusuario") );
+
+
+                            list_momentos.add(momento);
+                        }
+                    }
+                    AdapterMomentos2 adapter = new AdapterMomentos2(list_momentos);
+
+                    adapter.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            pasarDatosActivity(list_momentos.get(recyclerMomentos.getChildAdapterPosition(view)));
+                        }
+                    });
+
+                    recyclerMomentos.setAdapter(adapter);
+                }
+                catch (JSONException e)
+                {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener()
+        {
+            @Override
+            public void onErrorResponse(VolleyError error)
+            {
+                String s = "No se pudo realizar la solicitud";
+            }
+        });
+
+        queue.add(jsArrayRequest);
      }
+
+    private void llenarMomentosCompartidos()
+    {
+        String query = "http://momentosandroid.000webhostapp.com/momentosAndroid/obtener_momentos_compartidos.php";
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, query, new Response.Listener<String>()
+        {
+            @Override
+            public void onResponse(String response)
+            {
+                try
+                {
+                    JSONObject respuestaJSON = new JSONObject(response);
+                    String resultJSON = respuestaJSON.getString("estado");
+
+                    if (resultJSON=="1")
+                    {
+                        JSONArray momentosJSON = respuestaJSON.getJSONArray("momentos");
+                        for(int i=0;i<momentosJSON.length();i++)
+                        {
+                            Momento2 momento = new Momento2(
+                                    momentosJSON.getJSONObject(i).getInt("id"),
+                                    momentosJSON.getJSONObject(i).getString("titulo"),
+                                    momentosJSON.getJSONObject(i).getString("descripcion"),
+                                    momentosJSON.getJSONObject(i).getString("cancion"),
+                                    momentosJSON.getJSONObject(i).getDouble("latitud"),
+                                    momentosJSON.getJSONObject(i).getDouble("longitud"),
+                                    momentosJSON.getJSONObject(i).getString("fecha"),
+                                    momentosJSON.getJSONObject(i).getString("hora"),
+                                    momentosJSON.getJSONObject(i).getInt("idusuario") );
+                            list_momentos.add(momento);
+                        }
+                    }
+                    AdapterMomentos2 adapter = new AdapterMomentos2(list_momentos);
+
+                    adapter.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            pasarDatosActivity(list_momentos.get(recyclerMomentos.getChildAdapterPosition(view)));
+
+                            Toast.makeText(getApplicationContext(),
+                                    "Seleccion: " + list.get
+                                            (recyclerMomentos.getChildAdapterPosition(view))
+                                            .getNombre(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                    recyclerMomentos.setAdapter(adapter);
+                }
+                catch (JSONException e)
+                {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener()
+        {
+            @Override
+            public void onErrorResponse(VolleyError error)
+            {
+                String s = "No se pudo realizar la solicitud";
+            }
+        });
+
+        queue.add(stringRequest);
+    }
 
     @Override
     public void onBackPressed() {

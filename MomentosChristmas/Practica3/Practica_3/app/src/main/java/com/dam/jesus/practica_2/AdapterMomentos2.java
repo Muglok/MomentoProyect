@@ -38,8 +38,8 @@ public class AdapterMomentos2  extends RecyclerView.Adapter<AdapterMomentos2.Vie
        holder.etiTitulo.setText(listaMomentos.get(position).getTitulo());
         holder.etiDescripcion.setText(listaMomentos.get(position).getDescripcion());
         holder.etiCancion.setText(listaMomentos.get(position).getCancion());
-
-        holder.etiFecha.setText(dateFormat(listaMomentos.get(position).getFechaYhora()).toString());
+        String fecha = listaMomentos.get(position).getFecha() + " " + listaMomentos.get(position).getHora();
+        holder.etiFecha.setText(fecha);
     }
 
     @Override
