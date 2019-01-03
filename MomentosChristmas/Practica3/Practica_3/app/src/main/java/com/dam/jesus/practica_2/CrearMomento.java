@@ -66,8 +66,6 @@ public class CrearMomento extends FragmentActivity implements OnMapReadyCallback
     int idUsuario;
     int compartido;
 
-    Momento2 momento;
-
 
     //estos son arrays para gestionar los permisos
     private ArrayList<String> permissionsToRequest;
