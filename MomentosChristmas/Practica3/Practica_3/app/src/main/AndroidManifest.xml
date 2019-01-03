@@ -53,7 +53,14 @@
 
         <activity
             android:name=".CrearMomento"
-            android:label="@string/title_activity_crear_momento"></activity>
+            android:label="@string/title_activity_crear_momento" />
+        <activity
+            android:name=".VerMomento"
+            android:label="@string/title_activity_ver_momento" />
+        <activity
+            android:name=".Boton"
+            android:label="@string/title_activity_boton"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

@@ -56,7 +56,7 @@ public class Login extends AppCompatActivity {
 
     String user;
     String pass;
-    int id;
+    public int id;
     String telefono;
 
     String horaConexion;

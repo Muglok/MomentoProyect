@@ -433,6 +433,13 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(MainActivity.this,CrearMomento.class);
             // abro ventana
             startActivity(intent);
+        }
+
+        else if (id == R.id.nav_ver_momento) {
+            //Vamos a Activity Accesos
+            Intent intent = new Intent(MainActivity.this,VerMomento.class);
+            // abro ventana
+            startActivity(intent);
 
         }
 

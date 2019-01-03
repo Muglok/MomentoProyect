@@ -6,8 +6,14 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_crear_momento"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_menu_manage"
             android:title="Crear Momento" />
+
+        <item
+            android:id="@+id/nav_ver_momento"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Ver Momento" />
+
         <item
             android:id="@+id/nav_camera"
             android:icon="@drawable/ic_menu_camera"

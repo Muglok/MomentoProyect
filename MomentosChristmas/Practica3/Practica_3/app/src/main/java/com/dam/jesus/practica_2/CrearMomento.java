@@ -38,8 +38,11 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
@@ -56,6 +59,14 @@ public class CrearMomento extends FragmentActivity implements OnMapReadyCallback
     EditText cancion;
 
     Button guardarMomento;
+
+    String fechaActual;
+    String horaActual;
+
+    int idUsuario;
+    int compartido;
+
+    Momento2 momento;
 
 
     //estos son arrays para gestionar los permisos
@@ -149,11 +160,28 @@ public class CrearMomento extends FragmentActivity implements OnMapReadyCallback
                 String descripcionParam = descripcion.getText().toString();
                 String cancionParam = cancion.getText().toString();
 
+               fechaActual = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+               horaActual = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
+
+               idUsuario = 1;
+
+               compartido = 0;
+
+               //momento = new Momento2(idUsuario,tituloParam,descripcionParam,cancionParam,latitude,longitude,null,idUsuario,fechaActual,horaActual,compartido);
+
+
                 // Mapeo de los pares clave-valor
-                HashMap<String, String> parametros = new HashMap();
+                HashMap<String, Object> parametros = new HashMap<String,Object>();
                 parametros.put("titulo", tituloParam);
                 parametros.put("descripcion", descripcionParam);
                 parametros.put("cancion", cancionParam);
+                parametros.put("latitud",latitude);
+                parametros.put("longitud",longitude);
+                parametros.put("fecha",fechaActual);
+                parametros.put("hora",horaActual);
+                parametros.put("idusuario",idUsuario);
+                parametros.put("compartido",compartido);
+
 
 
                 JsonObjectRequest jsArrayRequest = new JsonObjectRequest(
@@ -178,8 +206,8 @@ public class CrearMomento extends FragmentActivity implements OnMapReadyCallback
                                 }
 
                                 if (resultJSON == "1") {      // hay un alumno que mostrar
-                                    devuelve = "Alumno insertado correctamente";
-                                    //resultado.setText(devuelve);
+                                    devuelve = "Momento insertado correctamente";
+                                    Toast.makeText(getApplicationContext(), devuelve, Toast.LENGTH_LONG).show();
 
                                 } else if (resultJSON == "2") {
                                     devuelve = "El alumno no pudo insertarse";
@@ -204,7 +232,7 @@ public class CrearMomento extends FragmentActivity implements OnMapReadyCallback
 
                 //------------------------------------------------------------------------
 
-                //Toast.makeText(getApplicationContext(), "Momento guardado", Toast.LENGTH_LONG).show();
+
             }
         });
 
@@ -233,7 +261,7 @@ public class CrearMomento extends FragmentActivity implements OnMapReadyCallback
     }
 
 
-    //------------ de location tracking
+    //------------ de location tracking ------------------------------------------------
     private ArrayList<String> findUnAskedPermissions(ArrayList<String> wanted) {
         ArrayList<String> result = new ArrayList<String>();
 

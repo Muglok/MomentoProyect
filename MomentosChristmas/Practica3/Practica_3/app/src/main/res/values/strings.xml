@@ -42,5 +42,7 @@
         <item>c4</item>
     </string-array>
     <string name="title_activity_crear_momento">Map</string>
+    <string name="title_activity_ver_momento">Map</string>
+    <string name="title_activity_boton">Boton</string>
 
 </resources>
