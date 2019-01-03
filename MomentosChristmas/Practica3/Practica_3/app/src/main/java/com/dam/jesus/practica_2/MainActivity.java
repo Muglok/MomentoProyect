@@ -221,10 +221,15 @@ public class MainActivity extends AppCompatActivity
                     adapter.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
+
+                            //pasarDatosActivity(list.get(recyclerMomentos.getChildAdapterPosition(view)));
+
                             Toast.makeText(getApplicationContext(),
                                     "Seleccion: " + list.get
                                             (recyclerMomentos.getChildAdapterPosition(view))
                                             .getNombre(), Toast.LENGTH_SHORT).show();
+
+
                         }
                     });
 
@@ -277,9 +282,11 @@ public class MainActivity extends AppCompatActivity
 
     private void llenarMomentos3()
     {
+        /*
         list_momentos.add(new Momento2(1,"Fiesta de año nuevo","Fiesta en casa de gudetama celebrando el 2019","Dino crisis soundtrack",383451700,-0.4814900,new Date("31/12/2018"),2));
         list_momentos.add(new Momento2(2,"Music Rock festival","Concierto rock en el campus de la UA","Fiesta pagana",383451700,-0.4814900,new Date("05/08/2018 12:25"),4));
         list_momentos.add(new Momento2(3,"Estreno mundial Avengers 17","Otra pelicula mas","NO",383451700,-0.4814900,new Date("22/05/2018 13:05"),5));
+        */
      }
 
     @Override
@@ -508,6 +515,25 @@ public class MainActivity extends AppCompatActivity
 
 
 
+   public void pasarDatosActivity(Momento2 momento)
+   {
+       Intent intent = new Intent(MainActivity.this,VerMomento.class);
+       Bundle b = new Bundle();
+       b.putString("titulo",momento.getTitulo());
+       b.putString("descripcion",momento.getDescripcion());
+       b.putString("cancion",momento.getCancion());
+       b.putDouble("latitude",momento.getLatitud());
+       b.putDouble("longitude",momento.getLongitud());
+       b.putString("fechaActual",momento.getFecha());
+       b.putString("horaActual",momento.getHora());
+       b.putInt("idMomento",momento.getId());
+       b.putInt("compartido",momento.getCompartido());
+
+       intent.putExtras(b);
+       // abro ventana
+       startActivity(intent);
+
+   }
 
 
 

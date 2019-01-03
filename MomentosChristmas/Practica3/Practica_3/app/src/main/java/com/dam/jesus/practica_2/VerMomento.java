@@ -21,7 +21,7 @@ public class VerMomento extends FragmentActivity implements OnMapReadyCallback {
 
 
 
-   //--------- Variables a recibir ------------------__
+   //--------- Variables a recibir --------------------
     String titulo;
     String descripcion;
     String cancion;
@@ -29,9 +29,10 @@ public class VerMomento extends FragmentActivity implements OnMapReadyCallback {
     double longitude;
     String fechaActual;
     String horaActual;
-    int idUsuario;
     int idMomento;
     int compartido;
+
+    int idUsuario;
     //-------------------------------------------------
 
     TextView tvTiulo, tvDescripcion, tvCancion, tvFecha, tvHora;

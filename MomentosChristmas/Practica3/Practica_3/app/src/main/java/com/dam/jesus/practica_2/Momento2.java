@@ -9,18 +9,25 @@ public class Momento2
     private String cancion;
     private double latitud;
     private double longitud;
-    private Date fechaYhora;
+
     private int idUsuario;
 
-    public Momento2(int id, String titulo, String descripcion, String cancion, double latitud, double longitud, Date fechaYhora, int idUsuario) {
+    private String fecha;
+    private String hora;
+
+    private int compartido;
+
+    public Momento2(int id, String titulo, String descripcion, String cancion, double latitud, double longitud, int idUsuario, String fecha, String hora) {
         this.id = id;
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.cancion = cancion;
         this.latitud = latitud;
         this.longitud = longitud;
-        this.fechaYhora = fechaYhora;
         this.idUsuario = idUsuario;
+        this.fecha = fecha;
+        this.hora = hora;
+        this.compartido = 0;
     }
 
     public int getId() {
@@ -71,19 +78,35 @@ public class Momento2
         this.longitud = longitud;
     }
 
-    public Date getFechaYhora() {
-        return fechaYhora;
-    }
-
-    public void setFechaYhora(Date fechaYhora) {
-        this.fechaYhora = fechaYhora;
-    }
-
     public int getIdUsuario() {
         return idUsuario;
     }
 
     public void setIdUsuario(int idUsuario) {
         this.idUsuario = idUsuario;
+    }
+
+    public String getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
+    }
+
+    public String getHora() {
+        return hora;
+    }
+
+    public void setHora(String hora) {
+        this.hora = hora;
+    }
+
+    public int getCompartido() {
+        return compartido;
+    }
+
+    public void setCompartido(int compartido) {
+        this.compartido = compartido;
     }
 }

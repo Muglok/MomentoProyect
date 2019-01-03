@@ -84,6 +84,9 @@ public class CrearMomento extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crear_momento);
 
+        //--- recuperamos variable id del login
+        idUsuario = Login.id;
+
         //------------------- Location Tracking --------------------------
         permissions.add(ACCESS_FINE_LOCATION);
         permissions.add(ACCESS_COARSE_LOCATION);
@@ -163,7 +166,7 @@ public class CrearMomento extends FragmentActivity implements OnMapReadyCallback
                fechaActual = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
                horaActual = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
 
-               idUsuario = 1;
+               //idUsuario = 1;
 
                compartido = 0;
 

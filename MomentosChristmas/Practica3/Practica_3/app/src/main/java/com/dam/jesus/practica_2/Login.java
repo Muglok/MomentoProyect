@@ -49,6 +49,9 @@ import java.util.HashMap;
 
 public class Login extends AppCompatActivity {
 
+
+    public static int id;
+
     EditText editTextUser;
     EditText editTextPassword;
     Button buttonLogin;
@@ -56,7 +59,7 @@ public class Login extends AppCompatActivity {
 
     String user;
     String pass;
-    public int id;
+
     String telefono;
 
     String horaConexion;
