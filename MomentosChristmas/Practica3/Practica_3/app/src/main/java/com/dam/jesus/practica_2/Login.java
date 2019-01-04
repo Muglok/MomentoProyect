@@ -1,14 +1,22 @@
-
 package com.dam.jesus.practica_2;
 
+import android.Manifest;
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.annotation.TargetApi;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
@@ -46,6 +54,17 @@ import java.time.LocalTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+
+
+import android.content.Context;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.telephony.TelephonyManager;
+import android.widget.TextView;
+import android.widget.Toast;
+
 
 public class Login extends AppCompatActivity {
 
@@ -70,22 +89,23 @@ public class Login extends AppCompatActivity {
     boolean usuarioValido = false;
 
 
-
-
     //----- Strings para conectar a web service -----------
     String postUserPass = "http://momentosandroid.000webhostapp.com/momentosAndroid/obtener_usuario_user_pass.php";
 
 
-
     //tarea que comprueba qué ha devuelto el web service y permite acceso a la app
-    private Runnable task = new Runnable()
-    {
+    private Runnable task = new Runnable() {
         public void run() {
 
             buttonLogin.setEnabled(true);
 
-            if(usuarioValido)
-            {
+            if (usuarioValido) {
+
+                //------ Recuperamos teléfono del usuario y lo metemos en la base de datos -----
+
+
+                //------------------------------------------------------------------------------
+
 
                 currentTime = Calendar.getInstance().getTime();
                 horaConexion = currentTime.toString();
@@ -214,4 +234,8 @@ public class Login extends AppCompatActivity {
 
         usuarioValido = false;
     }
+
+
+
+
 }

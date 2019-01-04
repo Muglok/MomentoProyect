@@ -44,7 +44,7 @@
 
             <EditText
                 android:id="@+id/editTextTitulo"
-                android:layout_width="277dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
 
@@ -82,7 +82,7 @@
 
             <EditText
                 android:id="@+id/editTextDescripcion"
-                android:layout_width="358dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
@@ -110,7 +110,7 @@
 
             <EditText
                 android:id="@+id/editTextCancion"
-                android:layout_width="272dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
 
                 android:layout_marginLeft="10dp"

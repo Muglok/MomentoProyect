@@ -44,7 +44,7 @@
 
             <TextView
                 android:id="@+id/editTextTitulo"
-                android:layout_width="277dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
                 android:inputType="textPersonName"
@@ -82,7 +82,7 @@
 
             <TextView
                 android:id="@+id/editTextDescripcion"
-                android:layout_width="358dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
@@ -90,7 +90,6 @@
                 android:gravity="left"
                 android:inputType="textPersonName"
                 android:paddingTop="10dp"
-                android:text="asdfasdf"
                 android:textSize="18sp" />
         </LinearLayout>
 
@@ -114,14 +113,13 @@
 
             <TextView
                 android:id="@+id/editTextCancion"
-                android:layout_width="272dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:inputType="textPersonName"
                 android:paddingTop="7dp"
 
-                android:text="asdf"
                 android:textSize="18sp" />
         </LinearLayout>
 
@@ -151,7 +149,7 @@
 
                 android:inputType="textPersonName"
                 android:paddingLeft="5dp"
-                android:text="23-12-2019"
+                android:text="----"
                 android:textSize="18sp" />
 
             <TextView
@@ -173,7 +171,7 @@
 
                 android:inputType="textPersonName"
                 android:paddingLeft="5dp"
-                android:text="23-12-2019"
+                android:text="----"
                 android:textSize="18sp" />
 
 

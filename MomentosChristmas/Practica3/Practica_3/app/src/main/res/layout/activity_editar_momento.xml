@@ -44,7 +44,7 @@
 
             <EditText
                 android:id="@+id/editTextModificarTitulo"
-                android:layout_width="277dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
                 android:inputType="textPersonName"
@@ -82,7 +82,7 @@
 
             <EditText
                 android:id="@+id/editTextModificarDescripcion"
-                android:layout_width="358dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
@@ -113,7 +113,7 @@
 
             <EditText
                 android:id="@+id/editTextModificarCancion"
-                android:layout_width="272dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
