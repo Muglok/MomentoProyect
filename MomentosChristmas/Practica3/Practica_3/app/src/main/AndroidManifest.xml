@@ -60,7 +60,10 @@
         <activity
             android:name=".Boton"
             android:label="@string/title_activity_boton"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".EditarMomento"
+            android:label="@string/title_activity_editar_momento"></activity>
     </application>
 
 </manifest>

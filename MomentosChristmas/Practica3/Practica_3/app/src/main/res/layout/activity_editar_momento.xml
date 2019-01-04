@@ -20,7 +20,7 @@
             android:layout_height="50dp"
 
             android:gravity="center"
-            android:text="Ver Momento"
+            android:text="Modificar Momento"
             android:textAlignment="gravity"
             android:textSize="30sp" />
 
@@ -42,8 +42,8 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/editTextTitulo"
+            <EditText
+                android:id="@+id/editTextModificarTitulo"
                 android:layout_width="277dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
@@ -80,8 +80,8 @@
 
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/editTextDescripcion"
+            <EditText
+                android:id="@+id/editTextModificarDescripcion"
                 android:layout_width="358dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
@@ -90,7 +90,6 @@
                 android:gravity="left"
                 android:inputType="textPersonName"
                 android:paddingTop="10dp"
-                android:text="asdfasdf"
                 android:textSize="18sp" />
         </LinearLayout>
 
@@ -112,16 +111,13 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/editTextCancion"
+            <EditText
+                android:id="@+id/editTextModificarCancion"
                 android:layout_width="272dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:inputType="textPersonName"
-                android:paddingTop="7dp"
-
-                android:text="asdf"
                 android:textSize="18sp" />
         </LinearLayout>
 
@@ -133,7 +129,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/textViewFecha"
+                android:id="@+id/textViewTituloFecha"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="2dp"
@@ -144,18 +140,18 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/editTextFecha"
+                android:id="@+id/textViewModificarFecha"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="2dp"
 
                 android:inputType="textPersonName"
                 android:paddingLeft="5dp"
-                android:text="23-12-2019"
+                android:text="-----"
                 android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/textViewHora"
+                android:id="@+id/textViewTituloHora"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
@@ -166,14 +162,14 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/editTextHora"
+                android:id="@+id/textViewModificarHora"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="2dp"
 
                 android:inputType="textPersonName"
                 android:paddingLeft="5dp"
-                android:text="23-12-2019"
+                android:text="......."
                 android:textSize="18sp" />
 
 
@@ -205,23 +201,13 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/compartirMomento"
+                android:id="@+id/modificarMomento"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Compartir Momento"
-                android:onClick="compartirMomento"
+                android:text="Modificar"
                 />
 
-            <Button
-                android:id="@+id/EditarMomento"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Editar Momento"
-                android:onClick="aActivityEditar"
-                />
-
-
-    </LinearLayout>
+        </LinearLayout>
 
     </LinearLayout>
 </LinearLayout>

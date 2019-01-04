@@ -1,6 +1,5 @@
 package com.dam.jesus.practica_2;
 
-import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -27,13 +26,11 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
-public class VerMomento extends FragmentActivity implements OnMapReadyCallback {
+public class EditarMomento extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
 
-
-
-   //--------- Variables a recibir --------------------
+    //--------- Variables a recibir --------------------
     String titulo;
     String descripcion;
     String cancion;
@@ -47,127 +44,64 @@ public class VerMomento extends FragmentActivity implements OnMapReadyCallback {
     int idUsuario;
     //-------------------------------------------------
 
-    TextView tvTiulo, tvDescripcion, tvCancion, tvFecha, tvHora;
-
-
+    EditText etTiulo, etDescripcion, etCancion;
+    TextView tvFecha, tvHora;
+    Button btnModificar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ver_momento);
+        setContentView(R.layout.activity_editar_momento);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        tvTiulo = findViewById(R.id.editTextTitulo);
-        tvDescripcion = findViewById(R.id.editTextDescripcion);
-        tvCancion = findViewById(R.id.editTextCancion);
-        tvFecha = findViewById(R.id.editTextFecha);
-        tvHora = findViewById(R.id.editTextHora);
 
-        //compartirM = findViewById((R.id.compartirMomento));
+        //---- Me enlazo con los elementos que van a recibir datos ----------------
+        etTiulo         = findViewById(R.id.editTextModificarTitulo);
+        etDescripcion   = findViewById(R.id.editTextModificarDescripcion);
+        etCancion       = findViewById(R.id.editTextModificarCancion);
+        tvFecha         = findViewById(R.id.textViewModificarFecha);
+        tvHora          = findViewById(R.id.textViewModificarHora);
+        btnModificar    = findViewById(R.id.modificarMomento);
+        //-------------------------------------------------------------------------
 
-
-        //---------------- Recupero los datos pasados desde la Main Activity -------------------
-
-             Bundle b = this.getIntent().getExtras();
-            titulo = b.getString("titulo");
-            descripcion = b.getString("descripcion");
-            cancion = b.getString("cancion");
-            latitude = b.getDouble("latitude");
-            longitude = b.getDouble("longitude");
-            fechaActual = b.getString("fechaActual");
-            horaActual = b.getString("horaActual");
-            idMomento = b.getInt("idMomento");
-            compartido = b.getInt("compartido");
+        //------ Recibo datos de la activity Ver Momento --------------------------
+        Bundle b = this.getIntent().getExtras();
+        titulo = b.getString("titulo");
+        descripcion = b.getString("descripcion");
+        cancion = b.getString("cancion");
+        latitude = b.getDouble("latitude");
+        longitude = b.getDouble("longitude");
+        fechaActual = b.getString("fechaActual");
+        horaActual = b.getString("horaActual");
+        idMomento = b.getInt("idMomento");
+        compartido = b.getInt("compartido");
 
         //idUsuario la cogemos de la activity login
         idUsuario = Login.id;
+        //-------------------------------------------------------------------------
 
 
-
-        //--------------------------------------------------------------------------------------
-        /*
-           Plantilla de cómo vienen los datos del MainActivity
-
-           b.putString("titulo",momento.getTitulo());
-           b.putString("descripcion",momento.getDescripcion());
-           b.putString("cancion",momento.getCancion());
-           b.putDouble("latitude",momento.getLatitud());
-           b.putDouble("longitude",momento.getLongitud());
-           b.putString("fechaActual",momento.getFecha());
-           b.putString("horaActual",momento.getHora());
-           b.putInt("idMomento",momento.getId());
-           b.putInt("compartido",momento.getCompartido());
-         */
-
-        //Colocamos datos en textViews
-
-        tvTiulo.setText(titulo);
-        tvDescripcion.setText(descripcion);
-        tvCancion.setText(cancion);
+        //----- damos valor a los campos--------------------------------------------
+        etTiulo.setText(titulo);
+        etDescripcion.setText(descripcion);
+        etCancion.setText(cancion);
         tvFecha.setText(fechaActual);
         tvHora.setText(horaActual);
+        //------------------------------------------------------------------------
 
-
-
-        //------------------------------ Metemos datos de prueba -------------------------
-        /*
-        tvTiulo.setText("Momento de Prueba");
-        tvDescripcion.setText("Descripción momento de prueba");
-        tvCancion.setText("Help - The Beatles");
-        tvFecha.setText("03-01.2019");
-        tvHora.setText("04:25:47");
-
-        fechaActual = tvFecha.getText().toString();
-        horaActual = tvHora.getText().toString();
-
-        // latitud y longitud de prueba
-        latitude =  -10.56789;
-        longitude = 20.5678;
-
-        compartido = 0;
-        idMomento = 3;
-        */
-        //-------------------------------------------------------------------------------
+        btnModificar.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                modificarMomento();
+            }
+        });
     }
 
 
-    public void compartirMomento(View v) {
-        // Do your stuff
-        if(compartido == 0)
-        {
-            compartirEsteMomento(idMomento);
-        }
-        else
-        {
-            Toast.makeText(this,"Este momento ya está compartido",Toast.LENGTH_SHORT).show();
-        }
-
-    }
 
 
-    public void aActivityEditar(View v) {
-
-        //intent a activity editar Momento con datos pasados
-        Intent intent = new Intent(VerMomento.this,EditarMomento.class);
-        Bundle b = new Bundle();
-        b.putString("titulo",tvTiulo.getText().toString());
-        b.putString("descripcion",tvDescripcion.getText().toString());
-        b.putString("cancion",tvCancion.getText().toString());
-        b.putDouble("latitude",latitude);
-        b.putDouble("longitude",longitude);
-        b.putString("fechaActual",fechaActual);
-        b.putString("horaActual",horaActual);
-        b.putInt("idMomento",idMomento);
-        b.putInt("compartido",compartido);
-
-        intent.putExtras(b);
-        // abro ventana
-        startActivity(intent);
-
-    }
 
     /**
      * Manipulates the map once available.
@@ -184,25 +118,25 @@ public class VerMomento extends FragmentActivity implements OnMapReadyCallback {
 
         // Add a marker in Sydney and move the camera
         LatLng sydney = new LatLng(latitude, longitude);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Lugar del momento"));
+        mMap.addMarker(new MarkerOptions().position(sydney).title("Lugar del Momento"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 
-
-    public void compartirEsteMomento(int idDelMomento)
+    public void modificarMomento()
     {
-        //--------- volley Update -----------------------
-
-        String url = "http://momentosandroid.000webhostapp.com/momentosAndroid/compartir_momento.php";
+        //---------- update con Volley ------------------
+        String url = "http://momentosandroid.000webhostapp.com/momentosAndroid/modificar_momento.php";
 
         //queue
         RequestQueue queue = Volley.newRequestQueue(this);
 
 
         // Mapeo de los pares clave-valor
-       HashMap<String,Integer> parametros = new HashMap();
-        parametros.put("compartido", 1);
-        parametros.put("id", idDelMomento);
+        HashMap<String,Object> parametros = new HashMap();
+        parametros.put("titulo", etTiulo.getText().toString());
+        parametros.put("descripcion", etDescripcion.getText().toString());
+        parametros.put("cancion", etCancion.getText().toString());
+        parametros.put("id", idMomento);
 
         JsonObjectRequest jsArrayRequest = new JsonObjectRequest(
                 Request.Method.POST,
@@ -224,7 +158,7 @@ public class VerMomento extends FragmentActivity implements OnMapReadyCallback {
                         }
 
                         if (resultJSON == "1") {      // hay un alumno que mostrar
-                            devuelve = "Momento Compartido";
+                            devuelve = "Momento Modificado";
                             Toast.makeText(getApplicationContext(),devuelve,Toast.LENGTH_LONG).show();
 
                         } else if (resultJSON == "2") {
@@ -246,6 +180,7 @@ public class VerMomento extends FragmentActivity implements OnMapReadyCallback {
 
         queue.add(jsArrayRequest);
         //-----------------------------------------------
-    }
 
+
+    }
 }
