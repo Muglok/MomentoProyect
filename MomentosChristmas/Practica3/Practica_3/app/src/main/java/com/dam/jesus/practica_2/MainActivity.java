@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity
     String pass;
     String telefono;
     int id;
-
+    int estadoMomento = 1;
     SQLiteDatabase db;
     String datosSelect;
 
@@ -69,9 +69,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        list = new ArrayList<>();
-        list_momentos = new ArrayList<>();
-        construirRecycler2();
+        //construirRecycler2();
 
 
         //Recupero datos del bundle pasado de la ventana Login
@@ -142,7 +140,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 String text = elegirTipoMomento();
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, text, Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
@@ -161,7 +159,174 @@ public class MainActivity extends AppCompatActivity
 
     private String elegirTipoMomento()
     {
-        return "hola";
+        String text = "";
+        if(estadoMomento == 1) {
+            estadoMomento = 2;
+            construirRecycler2();
+            text = "Cargando momentos compartidos";
+        }
+        else {
+            estadoMomento = 1;
+            construirRecycler2();
+            text = "Cargando mis momentos";
+        }
+        return text;
+    }
+
+    private void construirRecycler2()
+    {
+        list_momentos = new ArrayList<>();
+        recyclerMomentos = findViewById(R.id.RecyclerId);
+        recyclerMomentos.setLayoutManager(new LinearLayoutManager(this));
+
+        if(estadoMomento == 1) {
+            llenarMisMomentos();
+        }
+        else if(estadoMomento == 2){
+            llenarMomentosCompartidos();
+        }
+    }
+
+    private void llenarMisMomentos()
+    {
+        String query = "http://momentosandroid.000webhostapp.com/momentosAndroid/obtener_momentos_por_id_usuario.php";
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+
+        HashMap<String, Object> parametros = new HashMap<String,Object>();
+        parametros.put("idusuario", Login.id);
+
+        JsonObjectRequest jsArrayRequest = new JsonObjectRequest(Request.Method.POST, query,
+                new JSONObject(parametros), new Response.Listener<JSONObject>()
+        {
+            @Override
+            public void onResponse(JSONObject response)
+            {
+                try
+                {
+                    JSONObject respuestaJSON = response;
+                    String resultJSON = respuestaJSON.getString("estado");
+
+                    if (resultJSON=="1")
+                    {
+                        JSONArray momentosJSON = respuestaJSON.getJSONArray("momentos");
+                        Toast.makeText(getApplicationContext(),
+                                "Seleccion: " + momentosJSON.length(), Toast.LENGTH_SHORT).show();
+                        for(int i=0;i<momentosJSON.length();i++)
+                        {
+                            Momento2 momento = new Momento2(
+                                    momentosJSON.getJSONObject(i).getInt("id"),
+                                    momentosJSON.getJSONObject(i).getString("titulo"),
+                                    momentosJSON.getJSONObject(i).getString("descripcion"),
+                                    momentosJSON.getJSONObject(i).getString("cancion"),
+                                    momentosJSON.getJSONObject(i).getDouble("latitud"),
+                                    momentosJSON.getJSONObject(i).getDouble("longitud"),
+                                    momentosJSON.getJSONObject(i).getString("fecha"),
+                                    momentosJSON.getJSONObject(i).getString("hora"),
+                                    momentosJSON.getJSONObject(i).getInt("idusuario") );
+
+
+                            list_momentos.add(momento);
+                        }
+                    }
+                    AdapterMomentos2 adapter = new AdapterMomentos2(list_momentos);
+
+                    adapter.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            pasarDatosActivity(list_momentos.get(recyclerMomentos.getChildAdapterPosition(view)));
+
+                            Toast.makeText(getApplicationContext(),
+                                    "Seleccion: " + list_momentos.get
+                                            (recyclerMomentos.getChildAdapterPosition(view))
+                                            .getTitulo(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                    recyclerMomentos.setAdapter(adapter);
+                }
+                catch (JSONException e)
+                {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener()
+        {
+            @Override
+            public void onErrorResponse(VolleyError error)
+            {
+                String s = "No se pudo realizar la solicitud";
+            }
+        });
+
+        queue.add(jsArrayRequest);
+    }
+
+    private void llenarMomentosCompartidos()
+    {
+        String query = "http://momentosandroid.000webhostapp.com/momentosAndroid/obtener_momentos_compartidos.php";
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, query, new Response.Listener<String>()
+        {
+            @Override
+            public void onResponse(String response)
+            {
+                try
+                {
+                    JSONObject respuestaJSON = new JSONObject(response);
+                    String resultJSON = respuestaJSON.getString("estado");
+
+                    if (resultJSON=="1")
+                    {
+                        JSONArray momentosJSON = respuestaJSON.getJSONArray("momentos");
+                        for(int i=0;i<momentosJSON.length();i++)
+                        {
+                            Momento2 momento = new Momento2(
+                                    momentosJSON.getJSONObject(i).getInt("id"),
+                                    momentosJSON.getJSONObject(i).getString("titulo"),
+                                    momentosJSON.getJSONObject(i).getString("descripcion"),
+                                    momentosJSON.getJSONObject(i).getString("cancion"),
+                                    momentosJSON.getJSONObject(i).getDouble("latitud"),
+                                    momentosJSON.getJSONObject(i).getDouble("longitud"),
+                                    momentosJSON.getJSONObject(i).getString("fecha"),
+                                    momentosJSON.getJSONObject(i).getString("hora"),
+                                    momentosJSON.getJSONObject(i).getInt("idusuario") );
+                            list_momentos.add(momento);
+                        }
+                    }
+                    AdapterMomentos2 adapter = new AdapterMomentos2(list_momentos);
+
+                    adapter.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            pasarDatosActivity(list_momentos.get(recyclerMomentos.getChildAdapterPosition(view)));
+
+                            Toast.makeText(getApplicationContext(),
+                                    "Seleccion: " + list_momentos.get
+                                            (recyclerMomentos.getChildAdapterPosition(view))
+                                            .getTitulo(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                    recyclerMomentos.setAdapter(adapter);
+                }
+                catch (JSONException e)
+                {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener()
+        {
+            @Override
+            public void onErrorResponse(VolleyError error)
+            {
+                String s = "No se pudo realizar la solicitud";
+            }
+        });
+
+        queue.add(stringRequest);
     }
 
     private void construirRecycler()
@@ -169,13 +334,6 @@ public class MainActivity extends AppCompatActivity
         recyclerMomentos = findViewById(R.id.RecyclerId);
         recyclerMomentos.setLayoutManager(new LinearLayoutManager(this));
         llenarMomentos2();
-    }
-
-    private void construirRecycler2()
-    {
-        recyclerMomentos = findViewById(R.id.RecyclerId);
-        recyclerMomentos.setLayoutManager(new LinearLayoutManager(this));
-        llenarMisMomentos();
     }
 
     private void llenarMomentos2()
@@ -279,148 +437,6 @@ public class MainActivity extends AppCompatActivity
         list.add(new Momento("whatafuq","¿\"Cállese Viejo Lesbiano nació de un reality en donde una joven acusa a un señor de acosarla?\n" +
                 "\n" +
                 "También es falso. Existe la historia que ´la frase viene de una entrevista en donde una chica es acosada por un señor, y para poder huir de él, ella le dice que es lesbiana, a lo que él le contesta que también es \"lesbiano\" y continua acosándola. Entonces alguien le grita al señor \"¡cállese, viejo lesbiano!\"",R.drawable.photo5834437103243603928));
-    }
-
-    private void llenarMisMomentos()
-    {
-        String query = "http://momentosandroid.000webhostapp.com/momentosAndroid/obtener_momentos_por_id_usuario.php";
-        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-
-        HashMap<String, Object> parametros = new HashMap<String,Object>();
-        parametros.put("idusuario", Login.id);
-
-        JsonObjectRequest jsArrayRequest = new JsonObjectRequest(Request.Method.POST, query,
-        new JSONObject(parametros), new Response.Listener<JSONObject>()
-        {
-            @Override
-            public void onResponse(JSONObject response)
-            {
-                try
-                {
-                    JSONObject respuestaJSON = response;
-                    String resultJSON = respuestaJSON.getString("estado");
-
-                    if (resultJSON=="1")
-                    {
-                        JSONArray momentosJSON = respuestaJSON.getJSONArray("momentos");
-                        Toast.makeText(getApplicationContext(),
-                                "Seleccion: " + momentosJSON.length(), Toast.LENGTH_SHORT).show();
-                        for(int i=0;i<momentosJSON.length();i++)
-                        {
-                            Momento2 momento = new Momento2(
-                                    momentosJSON.getJSONObject(i).getInt("id"),
-                                    momentosJSON.getJSONObject(i).getString("titulo"),
-                                    momentosJSON.getJSONObject(i).getString("descripcion"),
-                                    momentosJSON.getJSONObject(i).getString("cancion"),
-                                    momentosJSON.getJSONObject(i).getDouble("latitud"),
-                                    momentosJSON.getJSONObject(i).getDouble("longitud"),
-                                    momentosJSON.getJSONObject(i).getString("fecha"),
-                                    momentosJSON.getJSONObject(i).getString("hora"),
-                                    momentosJSON.getJSONObject(i).getInt("idusuario") );
-
-
-                            list_momentos.add(momento);
-                        }
-                    }
-                    AdapterMomentos2 adapter = new AdapterMomentos2(list_momentos);
-
-                    adapter.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            pasarDatosActivity(list_momentos.get(recyclerMomentos.getChildAdapterPosition(view)));
-
-                            Toast.makeText(getApplicationContext(),
-                                    "Seleccion: " + list_momentos.get
-                                            (recyclerMomentos.getChildAdapterPosition(view))
-                                            .getTitulo(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
-                    recyclerMomentos.setAdapter(adapter);
-                }
-                catch (JSONException e)
-                {
-                    e.printStackTrace();
-                }
-
-            }
-        }, new Response.ErrorListener()
-        {
-            @Override
-            public void onErrorResponse(VolleyError error)
-            {
-                String s = "No se pudo realizar la solicitud";
-            }
-        });
-
-        queue.add(jsArrayRequest);
-     }
-
-    private void llenarMomentosCompartidos()
-    {
-        String query = "http://momentosandroid.000webhostapp.com/momentosAndroid/obtener_momentos_compartidos.php";
-        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, query, new Response.Listener<String>()
-        {
-            @Override
-            public void onResponse(String response)
-            {
-                try
-                {
-                    JSONObject respuestaJSON = new JSONObject(response);
-                    String resultJSON = respuestaJSON.getString("estado");
-
-                    if (resultJSON=="1")
-                    {
-                        JSONArray momentosJSON = respuestaJSON.getJSONArray("momentos");
-                        for(int i=0;i<momentosJSON.length();i++)
-                        {
-                            Momento2 momento = new Momento2(
-                                    momentosJSON.getJSONObject(i).getInt("id"),
-                                    momentosJSON.getJSONObject(i).getString("titulo"),
-                                    momentosJSON.getJSONObject(i).getString("descripcion"),
-                                    momentosJSON.getJSONObject(i).getString("cancion"),
-                                    momentosJSON.getJSONObject(i).getDouble("latitud"),
-                                    momentosJSON.getJSONObject(i).getDouble("longitud"),
-                                    momentosJSON.getJSONObject(i).getString("fecha"),
-                                    momentosJSON.getJSONObject(i).getString("hora"),
-                                    momentosJSON.getJSONObject(i).getInt("idusuario") );
-                            list_momentos.add(momento);
-                        }
-                    }
-                    AdapterMomentos2 adapter = new AdapterMomentos2(list_momentos);
-
-                    adapter.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-
-                            pasarDatosActivity(list_momentos.get(recyclerMomentos.getChildAdapterPosition(view)));
-
-                            Toast.makeText(getApplicationContext(),
-                                    "Seleccion: " + list_momentos.get
-                                            (recyclerMomentos.getChildAdapterPosition(view))
-                                            .getTitulo(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
-                    recyclerMomentos.setAdapter(adapter);
-                }
-                catch (JSONException e)
-                {
-                    e.printStackTrace();
-                }
-
-            }
-        }, new Response.ErrorListener()
-        {
-            @Override
-            public void onErrorResponse(VolleyError error)
-            {
-                String s = "No se pudo realizar la solicitud";
-            }
-        });
-
-        queue.add(stringRequest);
     }
 
     @Override
@@ -615,6 +631,8 @@ public class MainActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
         Toast.makeText(this,"Salta el onResume",Toast.LENGTH_SHORT).show();
+        list_momentos = new ArrayList<>();
+        construirRecycler2();
         //Recupero datos
         AudioManager manager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 

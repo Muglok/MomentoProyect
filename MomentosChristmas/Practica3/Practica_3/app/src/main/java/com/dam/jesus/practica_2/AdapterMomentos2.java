@@ -57,7 +57,6 @@ public class AdapterMomentos2  extends RecyclerView.Adapter<AdapterMomentos2.Vie
         if(listener != null){
             listener.onClick(view);
         }
-
     }
 
     public class ViewHolderDatos extends RecyclerView.ViewHolder {
