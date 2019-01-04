@@ -147,6 +147,10 @@ public class ContentsProvider extends AppCompatActivity implements View.OnClickL
                     c.getString(2) +
                     " Tipo: " +
                     c.getString(3) + "\n");
+
+            //----- cargar objeto contacto en ArratyList -------------
+
+            //---------------------------------------------------------
         }
         c.close();
 
