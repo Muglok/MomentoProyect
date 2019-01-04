@@ -1,6 +1,8 @@
 package com.dam.jesus.practica_2;
 
-public class Contacto {
+import java.util.Comparator;
+
+public class Contacto  {
 
     private String telefono;
     private String nombre;
@@ -36,4 +38,5 @@ public class Contacto {
     public void setId(int id) {
         this.id = id;
     }
+
 }

@@ -17,12 +17,37 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class ContentsProvider extends AppCompatActivity implements View.OnClickListener {
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+
+public class ContentsProvider extends AppCompatActivity {
 
 
     Button contactos, llamadas;
     TextView resultado;
+
+    String listaNumeros = "";
+
+
+    ArrayList<String> numerosUsuarios;
+    Set<Contacto> contactosAgenda;
+    ArrayList<Contacto> contactosConApp;
+
+    Contacto contactoAgenda;
 
     private static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 1;
     public static final int REQUEST_READ_CONTACTS = 79;
@@ -34,80 +59,40 @@ public class ContentsProvider extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contents_provider);
 
-        contactos = findViewById(R.id.contactos);
-        llamadas = findViewById(R.id.llamadas);
+
         resultado = findViewById(R.id.resultado);
 
-        contactos.setOnClickListener(this);
-        llamadas.setOnClickListener(this);
 
-    }
-
-
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()){
-            case R.id.contactos:
-                askForContactPermission();
-                break;
-            case R.id.llamadas:
-                askForCallPermission();
-                break;
-        }
-    }
+        numerosUsuarios = new ArrayList<>();
+        contactosAgenda = new HashSet<>();
+        contactosConApp = new ArrayList<>();
 
 
+        resultado.setText("iniciando: ");
+        obtenerNumerosUsuarios();
 
-    public void ObtenerDatosLlamadas() {
 
-        Uri uri;
+        //recorrer 2 listas
+
 
         /*
-        content://media/internal/images
-        content://media/external/video
-        content://media/internal/audio
+        for(String numero : numerosUsuarios)
+        {
+            listaNumeros += numero + " \n ";
+        }
 
+        resultado.setText(listaNumeros);
         */
 
-        //         content://media/*/images
-        //         content://settings/system/ringtones
+        //resultado.setText("Hola Amigos");
 
-        uri = Uri.parse("content://call_log/calls");
-
-        String[] projeccion = new String[]{
-                CallLog.Calls.PHONE_ACCOUNT_COMPONENT_NAME,
-                CallLog.Calls.CACHED_FORMATTED_NUMBER,
-                CallLog.Calls.CACHED_MATCHED_NUMBER};
-
-
-        Cursor c = getContentResolver().query(
-                uri,
-                projeccion,
-                null,
-                null,
-                null);
-
-        resultado.setText("");
-
-
-        while (c.moveToNext()) {
-            resultado.append("Tipo: " +
-                    c.getString(0) +
-                    " Número: " +
-                    c.getString(1) +
-                    " Duración: " +
-                    c.getString(2) +"\n");
-        }
-        c.close();
-
+        //askForContactPermission();
 
     }
+
 
 
     public void getContact() {
-
-
-
 
         /*contactsCursor = getContentResolver().query(
         ContactsContract.Contacts.CONTENT_URI,   // URI de contenido para los contactos
@@ -135,10 +120,11 @@ public class ContentsProvider extends AppCompatActivity implements View.OnClickL
                 null,
                 sortOrder);
 
-        resultado.setText("");
+        //resultado.setText("");
 
 
         while (c.moveToNext()) {
+            /*
             resultado.append("Identificador: " +
                     c.getString(0) +
                     " Nombre: " +
@@ -147,8 +133,14 @@ public class ContentsProvider extends AppCompatActivity implements View.OnClickL
                     c.getString(2) +
                     " Tipo: " +
                     c.getString(3) + "\n");
+            */
 
-            //----- cargar objeto contacto en ArratyList -------------
+            //----- cargar objetos contacto en ArratyList de contactos de la agenda -------------
+
+                String numeroSinEspacion = c.getString(2).replace(" ","");
+
+                 contactoAgenda = new Contacto(numeroSinEspacion,c.getString(1));
+                 contactosAgenda.add(contactoAgenda);
 
             //---------------------------------------------------------
         }
@@ -242,10 +234,10 @@ public class ContentsProvider extends AppCompatActivity implements View.OnClickL
                     // result of the request.
                 }
             } else {
-                ObtenerDatosLlamadas();
+
             }
         } else {
-            ObtenerDatosLlamadas();
+
         }
     }
 
@@ -273,7 +265,7 @@ public class ContentsProvider extends AppCompatActivity implements View.OnClickL
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    ObtenerDatosLlamadas();
+
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
 
@@ -289,4 +281,127 @@ public class ContentsProvider extends AppCompatActivity implements View.OnClickL
             // permissions this app might request
         }
     }
+
+
+    public void obtenerNumerosUsuarios()
+    {
+
+        //----------------- get All volley ---------------------------
+
+        String url ="http://momentosandroid.000webhostapp.com/momentosAndroid/obtener_usuarios.php";
+
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>()
+        {
+            @Override
+            public void onResponse(String response)
+            {
+                String telefono = "";
+                String devuelve ="";
+
+                //Creamos un objeto JSONObject para poder acceder a los atributos (campos) del objeto.
+                try
+                {
+                    //resultado.setText(response);
+
+                    JSONObject respuestaJSON = new JSONObject(response);
+
+                    //Accedemos al vector de resultados
+
+                    String resultJSON = respuestaJSON.getString("estado");   // estado es el nombre del campo en el JSON
+
+                    //resultado.setText(resultJSON);
+
+                    if (resultJSON=="1")
+                    {      // hay alumnos a mostrar
+                        JSONArray alumnosJSON = respuestaJSON.getJSONArray("usuarios");   // estado es el nombre del campo en el JSON
+                        for(int i=0;i<alumnosJSON.length();i++)
+                        {
+                            telefono = alumnosJSON.getJSONObject(i).getString("telefono");
+                            numerosUsuarios.add(telefono);
+                        }
+                        /*
+                        // telefonos del servicio web
+                        String genteConMiApp = "Estos son los numeros rescatados de la base de datos";
+                        for(String telef : numerosUsuarios)
+                        {
+                            genteConMiApp += telef + " \n ";
+                        }
+
+                        resultado.setText(genteConMiApp);
+                        */
+
+                        //---------------- cargar lista teléfonos -------------------------------
+                        askForContactPermission();
+                        /*
+                        // comprobamos contactos agenda
+                        String genteConMiApp = "Estos son los contactos de la agenda: \n";
+                        for(Contacto ct : contactosAgenda)
+                        {
+                            genteConMiApp += ct.getNombre() + " - "+ct.getTelefono()+ " \n ";
+                        }
+
+                        resultado.setText(genteConMiApp);
+                        */
+
+
+                        //---------------- Comparar listas y crear lista contactos con mi app -----
+
+
+                        for(Contacto ct: contactosAgenda)
+                        {
+                            for(String tfn: numerosUsuarios)
+                            {
+                                if(ct.getTelefono().equals(tfn))
+                                {
+                                    contactosConApp.add(ct);
+                                }
+                            }
+                        }
+
+
+                        //------ mostrar en resultado -----------------------------
+                        String genteConMiApp = "Contactos con Geo Moments: \n";
+                        for(Contacto cont : contactosConApp)
+                        {
+                            genteConMiApp += cont.getNombre()+" "+ cont.getTelefono() + " \n ";
+                        }
+
+                        resultado.setText(genteConMiApp);
+
+
+                    }
+                    else if (resultJSON=="2"){
+                        devuelve = "No hay alumnos";
+                        //resultado.setText(devuelve);
+                    }
+                }
+                catch (JSONException e)
+                {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener()
+        {
+            @Override
+            public void onErrorResponse(VolleyError error)
+            {
+                String s = "No se pudo realizar la solicitud";
+                resultado.setText(s);
+            }
+        });
+
+        queue.add(stringRequest);
+
+        //---------------------------------------------------------------------
+
+    }
+
+
+
+
+
+
 }
