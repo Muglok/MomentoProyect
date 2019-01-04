@@ -1,9 +1,9 @@
 <resources>
-    <string name="app_name">Practica Móviles</string>
+    <string name="app_name">Geo Moments</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Jesus Salas</string>
-    <string name="nav_header_subtitle">jsalasdam@gmail.com</string>
+    <string name="nav_header_title">Moments Manager</string>
+    <string name="nav_header_subtitle">Save Your Best Moments</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
     <string name="opciones_extra">Opciones Extra</string>

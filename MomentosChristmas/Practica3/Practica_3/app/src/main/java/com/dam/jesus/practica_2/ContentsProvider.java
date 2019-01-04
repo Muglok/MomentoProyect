@@ -75,9 +75,9 @@ public class ContentsProvider extends AppCompatActivity implements View.OnClickL
         uri = Uri.parse("content://call_log/calls");
 
         String[] projeccion = new String[]{
-                CallLog.Calls.TYPE,
-                CallLog.Calls.NUMBER,
-                CallLog.Calls.DURATION};
+                CallLog.Calls.PHONE_ACCOUNT_COMPONENT_NAME,
+                CallLog.Calls.CACHED_FORMATTED_NUMBER,
+                CallLog.Calls.CACHED_MATCHED_NUMBER};
 
 
         Cursor c = getContentResolver().query(
@@ -96,7 +96,7 @@ public class ContentsProvider extends AppCompatActivity implements View.OnClickL
                     " Número: " +
                     c.getString(1) +
                     " Duración: " +
-                    c.getString(2) + "\n");
+                    c.getString(2) +"\n");
         }
         c.close();
 

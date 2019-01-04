@@ -1,5 +1,7 @@
 package com.dam.jesus.practica_2;
 
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
@@ -92,7 +94,7 @@ public class CrearMomento extends FragmentActivity implements OnMapReadyCallback
         titulo = findViewById((R.id.editTextTitulo));
         descripcion = findViewById(R.id.editTextDescripcion);
         cancion = findViewById(R.id.editTextCancion);
-        guardarMomento = findViewById(R.id.guardarMomento);
+        //guardarMomento = findViewById(R.id.guardarMomento);
 
         permissionsToRequest = findUnAskedPermissions(permissions);
         //Cogemos los permisos que no están todavía dados.
@@ -149,93 +151,100 @@ public class CrearMomento extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-
-        guardarMomento.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-
-                //-------------------------------- Insertar con Volley -------------------
-                RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-
-                String url ="http://momentosandroid.000webhostapp.com/momentosAndroid/insertar_momento.php";
-                String tituloParam = titulo.getText().toString();
-                String descripcionParam = descripcion.getText().toString();
-                String cancionParam = cancion.getText().toString();
-
-               fechaActual = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
-               horaActual = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
-
-               //idUsuario = 1;
-
-               compartido = 0;
-
-               //momento = new Momento2(idUsuario,tituloParam,descripcionParam,cancionParam,latitude,longitude,null,idUsuario,fechaActual,horaActual,compartido);
-
-
-                // Mapeo de los pares clave-valor
-                HashMap<String, Object> parametros = new HashMap<String,Object>();
-                parametros.put("titulo", tituloParam);
-                parametros.put("descripcion", descripcionParam);
-                parametros.put("cancion", cancionParam);
-                parametros.put("latitud",latitude);
-                parametros.put("longitud",longitude);
-                parametros.put("fecha",fechaActual);
-                parametros.put("hora",horaActual);
-                parametros.put("idusuario",idUsuario);
-                parametros.put("compartido",compartido);
-
-
-
-                JsonObjectRequest jsArrayRequest = new JsonObjectRequest(
-                        Request.Method.POST,
-                        url,
-                        new JSONObject(parametros),
-                        new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                // Manejo de la respuesta
-
-
-                                //Accedemos al vector de resultados
-
-                                String devuelve = "";
-
-                                String resultJSON = null;   // estado es el nombre del campo en el JSON
-                                try {
-                                    resultJSON = response.getString("estado");
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-
-                                if (resultJSON == "1") {      // hay un alumno que mostrar
-                                    devuelve = "Momento insertado correctamente";
-                                    Toast.makeText(getApplicationContext(), devuelve, Toast.LENGTH_LONG).show();
-
-                                } else if (resultJSON == "2") {
-                                    devuelve = "El alumno no pudo insertarse";
-                                    //resultado.setText(devuelve);
-                                }
-
-
-                                //resultado.setText(devuelve);
-                            }
-                        },
-                        new Response.ErrorListener() {
-
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                // Manejo de errores
-                                //resultado.setText("Ha habído un error");
-                            }
-                        });
-
-
-                queue.add(jsArrayRequest);
-
-                //------------------------------------------------------------------------
-
-
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Momento añadido correctamente", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+                añadirMomento();
             }
         });
+    }
+
+
+    private void añadirMomento()
+    {
+        //-------------------------------- Insertar con Volley -------------------
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+
+        String url ="http://momentosandroid.000webhostapp.com/momentosAndroid/insertar_momento.php";
+        String tituloParam = titulo.getText().toString();
+        String descripcionParam = descripcion.getText().toString();
+        String cancionParam = cancion.getText().toString();
+
+        fechaActual = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+        horaActual = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
+
+        //idUsuario = 1;
+
+        compartido = 0;
+
+        //momento = new Momento2(idUsuario,tituloParam,descripcionParam,cancionParam,latitude,longitude,null,idUsuario,fechaActual,horaActual,compartido);
+
+
+        // Mapeo de los pares clave-valor
+        HashMap<String, Object> parametros = new HashMap<String,Object>();
+        parametros.put("titulo", tituloParam);
+        parametros.put("descripcion", descripcionParam);
+        parametros.put("cancion", cancionParam);
+        parametros.put("latitud",latitude);
+        parametros.put("longitud",longitude);
+        parametros.put("fecha",fechaActual);
+        parametros.put("hora",horaActual);
+        parametros.put("idusuario",idUsuario);
+        parametros.put("compartido",compartido);
+
+
+
+        JsonObjectRequest jsArrayRequest = new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                new JSONObject(parametros),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // Manejo de la respuesta
+
+
+                        //Accedemos al vector de resultados
+
+                        String devuelve = "";
+
+                        String resultJSON = null;   // estado es el nombre del campo en el JSON
+                        try {
+                            resultJSON = response.getString("estado");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        if (resultJSON == "1") {      // hay un alumno que mostrar
+                            devuelve = "Momento insertado correctamente";
+                            Toast.makeText(getApplicationContext(), devuelve, Toast.LENGTH_LONG).show();
+
+                        } else if (resultJSON == "2") {
+                            devuelve = "El alumno no pudo insertarse";
+                            //resultado.setText(devuelve);
+                        }
+
+
+                        //resultado.setText(devuelve);
+                    }
+                },
+                new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Manejo de errores
+                        //resultado.setText("Ha habído un error");
+                    }
+                });
+
+
+        queue.add(jsArrayRequest);
+
+        //------------------------------------------------------------------------
+
 
     }
 

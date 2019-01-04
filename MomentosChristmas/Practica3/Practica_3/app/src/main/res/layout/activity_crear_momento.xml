@@ -1,28 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:orientation="vertical"
-    >
+    android:padding="10dp">
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-
-            android:gravity="center"
-            android:text="Nuevo Momento"
-            android:textAlignment="gravity"
-            android:textSize="30sp" />
+    <LinearLayout
+        android:layout_width="374dp"
+        android:layout_height="490dp"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -140,22 +129,19 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
+    </LinearLayout>
 
-            android:orientation="horizontal">
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="37dp"
+        android:layout_marginBottom="10dp"
+        app:srcCompat="@android:drawable/ic_menu_save" />
 
-            <Button
-                android:id="@+id/guardarMomento"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Guardar Momento"
-
-                />
-
-        </LinearLayout>
-
-        </LinearLayout>
-
-</LinearLayout>
+</RelativeLayout>

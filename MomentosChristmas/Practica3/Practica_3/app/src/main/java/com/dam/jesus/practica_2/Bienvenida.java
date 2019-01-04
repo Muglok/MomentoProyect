@@ -30,7 +30,7 @@ public class Bienvenida extends AppCompatActivity {
 
         //ejecutamos tarea en un handler
         Handler handler = new Handler();
-        handler.postDelayed(task, 3000);
+        handler.postDelayed(task, 1500);
     }
 }
 

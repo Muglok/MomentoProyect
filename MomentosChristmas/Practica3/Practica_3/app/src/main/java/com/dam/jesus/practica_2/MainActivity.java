@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity
 
     public static ArrayList<Momento> list;
     public static ArrayList<Momento2> list_momentos;
+    public static ArrayList<Momento2> list_momentos_compartidos;
     public static RecyclerView recyclerMomentos;
 
     MediaPlayer mediaPlayer;
@@ -140,6 +141,7 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String text = elegirTipoMomento();
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
@@ -157,6 +159,10 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+    private String elegirTipoMomento()
+    {
+        return "hola";
+    }
 
     private void construirRecycler()
     {
@@ -209,8 +215,6 @@ public class MainActivity extends AppCompatActivity
                                     momentosJSON.getJSONObject(i).getInt("idusuario") );
 
                             //Momento2 momento = new Momento2(3,momentosJSON.getJSONObject(i).getString("titulo"),"Otra pelicula mas","NO",383451700,-0.4814900,"03/10/2019","12:30",2);
-
-
                             list_momentos.add(momento);
                         }
                     }
