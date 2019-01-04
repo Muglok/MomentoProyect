@@ -169,20 +169,7 @@ public class MainActivity extends AppCompatActivity
     {
         recyclerMomentos = findViewById(R.id.RecyclerId);
         recyclerMomentos.setLayoutManager(new LinearLayoutManager(this));
-        llenarMomentosCompartidos();
-        AdapterMomentos2 adapter = new AdapterMomentos2(list_momentos);
-
-        adapter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getApplicationContext(),
-                        "Seleccion: " + list_momentos.get
-                                (recyclerMomentos.getChildAdapterPosition(view))
-                                .getTitulo(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        recyclerMomentos.setAdapter(adapter);
+        llenarMisMomentos();
     }
 
     private void llenarMomentos2()
@@ -336,8 +323,12 @@ public class MainActivity extends AppCompatActivity
                     adapter.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-
                             pasarDatosActivity(list_momentos.get(recyclerMomentos.getChildAdapterPosition(view)));
+
+                            Toast.makeText(getApplicationContext(),
+                                    "Seleccion: " + list_momentos.get
+                                            (recyclerMomentos.getChildAdapterPosition(view))
+                                            .getTitulo(), Toast.LENGTH_SHORT).show();
                         }
                     });
 
@@ -402,9 +393,9 @@ public class MainActivity extends AppCompatActivity
                             pasarDatosActivity(list_momentos.get(recyclerMomentos.getChildAdapterPosition(view)));
 
                             Toast.makeText(getApplicationContext(),
-                                    "Seleccion: " + list.get
+                                    "Seleccion: " + list_momentos.get
                                             (recyclerMomentos.getChildAdapterPosition(view))
-                                            .getNombre(), Toast.LENGTH_SHORT).show();
+                                            .getTitulo(), Toast.LENGTH_SHORT).show();
                         }
                     });
 
