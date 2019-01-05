@@ -62,13 +62,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 
-import android.content.Context;
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.telephony.TelephonyManager;
-import android.widget.TextView;
-import android.widget.Toast;
-
 
 public class Login extends AppCompatActivity {
 
@@ -115,7 +108,11 @@ public class Login extends AppCompatActivity {
 
                 askForContactPermissionLogin();
 
-                updateTelefonoUsuario(id,contactoYo.getTelefono());
+                if(contactoYo != null)
+                {
+                    updateTelefonoUsuario(id,contactoYo.getTelefono());
+                }
+
 
                 //------------------------------------------------------------------------------
 
@@ -287,7 +284,7 @@ public class Login extends AppCompatActivity {
         while (c.moveToNext()) {
 
             //----- cargar objeto contacto en ArratyList -------------
-            if(c.getString(1).equals("yo"))
+            if(c.getString(1).equals("Yo"))
             {
                 contactoYo = new Contacto(c.getString(2),c.getString(1));
                 //Toast.makeText(getApplicationContext(),contactoYo.getNombre()+" telefono: "+contactoYo.getTelefono(),Toast.LENGTH_LONG).show();

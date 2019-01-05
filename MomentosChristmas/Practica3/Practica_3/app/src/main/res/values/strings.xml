@@ -15,17 +15,7 @@
 
     <!-- Strings related to Settings -->
 
-    <string-array name="pais">
-        <item>España</item>
-        <item>Francia</item>
-        <item>Alemania</item>
-    </string-array>
 
-    <string-array name="codigopais">
-        <item>ESP</item>
-        <item>FRA</item>
-        <item>ALE</item>
-    </string-array>
 
 
     <string-array name="cancion">
