@@ -162,7 +162,7 @@ public class EditarMomento extends AppCompatActivity implements OnMapReadyCallba
 
                         if (resultJSON == "1") {      // hay un alumno que mostrar
                             devuelve = "Momento Modificado";
-                            Toast.makeText(getApplicationContext(),devuelve,Toast.LENGTH_LONG).show();
+                            //Toast.makeText(getApplicationContext(),devuelve,Toast.LENGTH_LONG).show();
 
                         } else if (resultJSON == "2") {
                             devuelve = "El momento no pudo modificarse";

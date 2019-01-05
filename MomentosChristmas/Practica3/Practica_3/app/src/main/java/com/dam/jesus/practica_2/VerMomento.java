@@ -1,6 +1,8 @@
 package com.dam.jesus.practica_2;
 
 import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -45,6 +47,7 @@ public class VerMomento extends AppCompatActivity implements OnMapReadyCallback 
     String horaActual;
     int idMomento;
     int compartido;
+    int idUsuarioMomento;
 
     int idUsuario;
     //-------------------------------------------------
@@ -81,6 +84,8 @@ public class VerMomento extends AppCompatActivity implements OnMapReadyCallback 
             horaActual = b.getString("horaActual");
             idMomento = b.getInt("idMomento");
             compartido = b.getInt("compartido");
+            idUsuarioMomento = b.getInt("idusuarioMomento");
+
 
         //idUsuario la cogemos de la activity login
         idUsuario = Login.id;
@@ -96,23 +101,56 @@ public class VerMomento extends AppCompatActivity implements OnMapReadyCallback 
         tvCancion.setText(cancion);
         tvFecha.setText(fechaActual);
         tvHora.setText(horaActual);
+
+        FloatingActionButton fabCompartir = (FloatingActionButton) findViewById(R.id.fabCompartir);
+        fabCompartir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String text = "";
+                if(idUsuario != idUsuarioMomento) {
+                    text = "Este es un momento compartido, no puedes compartirlo";
+                }
+                else {
+
+                    if (compartido == 0) {
+                        compartirMomento();
+                        text = "Momento Compartido correctamente";
+                        compartido = 1;
+                    } else
+                        text = "Este momento ya está compartido";
+                }
+
+                Snackbar.make(view, text, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+
+
+        FloatingActionButton fabEditar = (FloatingActionButton) findViewById(R.id.fabEdit);
+        fabEditar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String text = "";
+                if(idUsuario != idUsuarioMomento) {
+                    text = "Este es un momento compartido, no puedes editarlo";
+                }
+                else {
+                    aActivityEditar();
+                    text = "Editar momento";
+                }
+                Snackbar.make(view, text, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
     }
 
 
-    public void compartirMomento(View v) {
-        // Do your stuff
-        if(compartido == 0)
-        {
+    public void compartirMomento() {
             compartirEsteMomento(idMomento);
-        }
-        else
-        {
-            Toast.makeText(this,"Este momento ya está compartido",Toast.LENGTH_SHORT).show();
-        }
     }
 
 
-    public void aActivityEditar(View v) {
+    public void aActivityEditar() {
 
         //intent a activity editar Momento con datos pasados
         Intent intent = new Intent(VerMomento.this,EditarMomento.class);
@@ -189,7 +227,7 @@ public class VerMomento extends AppCompatActivity implements OnMapReadyCallback 
 
                         if (resultJSON == "1") {      // hay un alumno que mostrar
                             devuelve = "Momento Compartido";
-                            Toast.makeText(getApplicationContext(),devuelve,Toast.LENGTH_LONG).show();
+                            //Toast.makeText(getApplicationContext(),devuelve,Toast.LENGTH_LONG).show();
 
                         } else if (resultJSON == "2") {
                             devuelve = "El momento no pudo modificarse";

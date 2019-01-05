@@ -7,6 +7,31 @@
     android:orientation="vertical"
     android:padding="10dp">
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabEdit"
+        android:layout_width="59dp"
+        android:layout_height="61dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="7dp"
+        android:layout_marginRight="7dp"
+        android:layout_marginBottom="7dp"
+        app:backgroundTint="#0088cc"
+        app:srcCompat="@drawable/ic_menu_gallery" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabCompartir"
+        android:layout_width="80dp"
+        android:layout_height="81dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="7dp"
+        app:backgroundTint="@color/colorPrimaryDark"
+        app:srcCompat="@drawable/ic_menu_share"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -86,8 +111,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
-
-
+            android:paddingTop="5dp"
             android:orientation="horizontal">
 
             <TextView
@@ -108,7 +132,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:inputType="textPersonName"
-                android:paddingTop="7dp"
+                android:paddingTop="10dp"
 
                 android:textSize="18sp" />
         </LinearLayout>
@@ -186,30 +210,6 @@
 
 
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/compartirMomento"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Compartir Momento"
-                android:onClick="compartirMomento"
-                />
-
-            <Button
-                android:id="@+id/EditarMomento"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Editar Momento"
-                android:onClick="aActivityEditar"
-                />
-
-
-    </LinearLayout>
 
     </LinearLayout>
 </RelativeLayout>

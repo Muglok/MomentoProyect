@@ -211,7 +211,8 @@ public class MainActivity extends AppCompatActivity
                                     momentosJSON.getJSONObject(i).getDouble("longitud"),
                                     momentosJSON.getJSONObject(i).getString("fecha"),
                                     momentosJSON.getJSONObject(i).getString("hora"),
-                                    momentosJSON.getJSONObject(i).getInt("idusuario") );
+                                    momentosJSON.getJSONObject(i).getInt("idusuario"),
+                                    momentosJSON.getJSONObject(i).getInt("compartido"));
 
 
                             list_momentos.add(momento);
@@ -224,10 +225,6 @@ public class MainActivity extends AppCompatActivity
                         public void onClick(View view) {
                             pasarDatosActivity(list_momentos.get(recyclerMomentos.getChildAdapterPosition(view)));
 
-                            Toast.makeText(getApplicationContext(),
-                                    "Seleccion: " + list_momentos.get
-                                            (recyclerMomentos.getChildAdapterPosition(view))
-                                            .getTitulo(), Toast.LENGTH_SHORT).show();
                         }
                     });
 
@@ -291,10 +288,6 @@ public class MainActivity extends AppCompatActivity
 
                             pasarDatosActivity(list_momentos.get(recyclerMomentos.getChildAdapterPosition(view)));
 
-                            Toast.makeText(getApplicationContext(),
-                                    "Seleccion: " + list_momentos.get
-                                            (recyclerMomentos.getChildAdapterPosition(view))
-                                            .getTitulo(), Toast.LENGTH_SHORT).show();
                         }
                     });
 
@@ -537,6 +530,7 @@ public class MainActivity extends AppCompatActivity
        b.putString("horaActual",momento.getHora());
        b.putInt("idMomento",momento.getId());
        b.putInt("compartido",momento.getCompartido());
+       b.putInt("idusuarioMomento",momento.getIdUsuario());
 
        intent.putExtras(b);
        // abro ventana

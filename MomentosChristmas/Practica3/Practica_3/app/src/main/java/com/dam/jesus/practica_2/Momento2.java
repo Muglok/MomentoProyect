@@ -27,6 +27,19 @@ public class Momento2
         this.compartido = 0;
     }
 
+    public Momento2(int id, String titulo, String descripcion, String cancion, double latitud, double longitud, String fecha, String hora, int idUsuario,int compartido) {
+        this.id = id;
+        this.titulo = titulo;
+        this.descripcion = descripcion;
+        this.cancion = cancion;
+        this.latitud = latitud;
+        this.longitud = longitud;
+        this.fecha = fecha;
+        this.hora = hora;
+        this.idUsuario = idUsuario;
+        this.compartido = compartido;
+    }
+
     public int getId() {
         return id;
     }

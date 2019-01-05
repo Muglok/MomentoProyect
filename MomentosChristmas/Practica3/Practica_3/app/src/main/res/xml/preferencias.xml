@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
     <!--Segun el tipo de elemento que sea <CheckBoxPreference, <EditTextPreference, etc..
  se guardara una variable de un tipo u otro (boolean, string, etc)-->
     <PreferenceCategory android:title="Datos de Usuario">
         <!-- El checkBox preference permite checkear un checkbox  -->
-        <CheckBoxPreference
-            android:key="usoSonido"
-            android:title="Sonido"
-            android:summary="Activa o desactiva el sonido"/>
+
         <!-- El editText preference permite introducir un texto que se guarda  -->
         <EditTextPreference
         android:key="nombreUsuario"
@@ -21,8 +19,12 @@
             android:dialogTitle="Introduce la contraseña"/>
     </PreferenceCategory>
     <PreferenceCategory
-        android:title="Lista de canciones">
+        android:title="Preferencias Musica">
         <!-- El ListPreference preference nos permite sacar una lista y elegir un elemento de ahí  -->
+        <CheckBoxPreference
+            android:key="usoSonido"
+            android:title="Sonido"
+            android:summary="Activa o desactiva el sonido"/>
         <ListPreference
             android:key="listaCanciones"
             android:title="Lista Canciones"
@@ -30,5 +32,6 @@
             android:dialogTitle="Elija una Cancion"
             android:entries="@array/cancion"
             android:entryValues="@array/codigoCancion"/>
+
     </PreferenceCategory>
 </PreferenceScreen>
