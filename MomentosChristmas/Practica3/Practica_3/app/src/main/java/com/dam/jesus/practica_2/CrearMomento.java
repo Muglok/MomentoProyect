@@ -172,7 +172,7 @@ public class CrearMomento extends AppCompatActivity implements OnMapReadyCallbac
         String cancionParam = cancion.getText().toString();
 
         fechaActual = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
-        horaActual = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
+        horaActual = new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date());
 
         compartido = 0;
 
