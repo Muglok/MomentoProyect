@@ -12,7 +12,13 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
-        card_view:cardBackgroundColor="@color/design_default_color_primary_dark">
+        card_view:cardBackgroundColor="@color/design_default_color_primary_dark"
+        card_view:cardCornerRadius="4dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:background="#be0c1f"/>
 
         <LinearLayout
             android:layout_width="match_parent"
