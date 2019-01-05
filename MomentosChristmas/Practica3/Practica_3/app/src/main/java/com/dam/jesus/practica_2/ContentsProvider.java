@@ -14,6 +14,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -40,12 +42,10 @@ import java.util.Set;
 public class ContentsProvider extends AppCompatActivity {
 
 
-    Button contactos, llamadas;
-    TextView resultado;
-
     ArrayList<String> numerosUsuarios;
     Set<Contacto> contactosAgenda;
     ArrayList<Contacto> contactosConApp;
+    public static RecyclerView recyclerMomentos;
 
     Contacto contactoAgenda;
 
@@ -56,18 +56,6 @@ public class ContentsProvider extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contents_provider);
-
-
-        resultado = findViewById(R.id.resultado);
-
-
-        numerosUsuarios = new ArrayList<>();
-        contactosAgenda = new HashSet<>();
-        contactosConApp = new ArrayList<>();
-
-
-        resultado.setText("iniciando: ");
-        obtenerNumerosUsuarios();
     }
 
 
@@ -312,6 +300,16 @@ public class ContentsProvider extends AppCompatActivity {
                             setContactos.add(cont.getNombre()+";"+cont.getTelefono());
                         }
 
+                        contactosConApp = new ArrayList<>();
+
+                        for(String cont : setContactos)
+                        {
+                            String[] datos = cont.split(";");
+                            contactosConApp.add(new Contacto(datos[0],datos[1]));
+                        }
+
+
+
                         //------ mostrar hashSet en resultado -----------------------------
                         String genteConMiApp = "Contactos con Geo Moments: \n";
 
@@ -319,8 +317,19 @@ public class ContentsProvider extends AppCompatActivity {
                         while (i.hasNext())
                             genteConMiApp += i.next() +"\n";
 
-                        resultado.setText(genteConMiApp);
+                        AdapterContactos adapter = new AdapterContactos(contactosConApp);
 
+                        adapter.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Toast.makeText(getApplicationContext(),
+                                        "Seleccion: " + contactosConApp.get
+                                                (recyclerMomentos.getChildAdapterPosition(view))
+                                                .getTelefono(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                        recyclerMomentos.setAdapter(adapter);
 
                     }
                     else if (resultJSON=="2"){
@@ -339,7 +348,6 @@ public class ContentsProvider extends AppCompatActivity {
             public void onErrorResponse(VolleyError error)
             {
                 String s = "No se pudo realizar la solicitud";
-                resultado.setText(s);
             }
         });
 
@@ -349,4 +357,21 @@ public class ContentsProvider extends AppCompatActivity {
 
     }
 
+    public void construirRecyclerContactos()
+    {
+        recyclerMomentos = findViewById(R.id.RecyclerContactosId);
+        recyclerMomentos.setLayoutManager(new LinearLayoutManager(this));
+
+        numerosUsuarios = new ArrayList<>();
+        contactosAgenda = new HashSet<>();
+        contactosConApp = new ArrayList<>();
+
+        obtenerNumerosUsuarios();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        construirRecyclerContactos();
+    }
 }

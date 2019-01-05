@@ -7,21 +7,9 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-
-    <Button
-        android:id="@+id/contactos"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/RecyclerContactosId"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Contactos" />
+        android:layout_height="wrap_content"/>
 
-    <Button
-        android:id="@+id/llamadas"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Llamadas" />
-
-    <TextView
-        android:id="@+id/resultado"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
 </LinearLayout>

@@ -200,8 +200,6 @@ public class MainActivity extends AppCompatActivity
                     if (resultJSON=="1")
                     {
                         JSONArray momentosJSON = respuestaJSON.getJSONArray("momentos");
-                        Toast.makeText(getApplicationContext(),
-                                "Seleccion: " + momentosJSON.length(), Toast.LENGTH_SHORT).show();
                         for(int i=0;i<momentosJSON.length();i++)
                         {
                             Momento2 momento = new Momento2(
@@ -466,7 +464,7 @@ public class MainActivity extends AppCompatActivity
             // abro ventana
             startActivity(intent);
         }
-        
+
          else if (id == R.id.nav_web_site) {
 
         } else if (id == R.id.nav_send) {

@@ -23,7 +23,7 @@
                 android:id="@+id/idImagen"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:src="@mipmap/welcome_navidad"
+                android:src="@mipmap/ic_launcher_contacto"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="10dp"
                 android:paddingLeft="5dp"
@@ -32,7 +32,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingTop="10dp">
 
                 <TextView
                     android:id="@+id/idContactoNombre"
@@ -54,6 +55,5 @@
 
             </LinearLayout>
         </LinearLayout>
-
     </android.support.v7.widget.CardView>
 </RelativeLayout>
