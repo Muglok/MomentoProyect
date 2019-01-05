@@ -106,10 +106,6 @@ public class EditarMomento extends AppCompatActivity implements OnMapReadyCallba
         });
     }
 
-
-
-
-
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -187,7 +183,5 @@ public class EditarMomento extends AppCompatActivity implements OnMapReadyCallba
 
         queue.add(jsArrayRequest);
         //-----------------------------------------------
-
-
     }
 }

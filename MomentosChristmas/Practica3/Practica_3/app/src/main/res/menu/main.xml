@@ -16,12 +16,6 @@
         app:showAsAction="collapseActionView" />
 
     <item
-        android:id="@+id/datos_alumno"
-        android:orderInCategory="100"
-        android:title="@string/datos_alumno"
-        app:showAsAction="never" />
-
-    <item
         android:id="@+id/preferencias"
         android:orderInCategory="90"
         android:title="@string/bar_settings"

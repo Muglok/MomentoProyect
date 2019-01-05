@@ -43,17 +43,12 @@ public class ContentsProvider extends AppCompatActivity {
     Button contactos, llamadas;
     TextView resultado;
 
-    String listaNumeros = "";
-
-
     ArrayList<String> numerosUsuarios;
     Set<Contacto> contactosAgenda;
     ArrayList<Contacto> contactosConApp;
 
     Contacto contactoAgenda;
 
-    private static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 1;
-    public static final int REQUEST_READ_CONTACTS = 79;
     public static final int PERMISSION_REQUEST_CONTACT = 1;
     public static final int PERMISSION_REQUEST_CALL = 2;
 
@@ -73,24 +68,6 @@ public class ContentsProvider extends AppCompatActivity {
 
         resultado.setText("iniciando: ");
         obtenerNumerosUsuarios();
-
-
-        //recorrer 2 listas
-
-
-        /*
-        for(String numero : numerosUsuarios)
-        {
-            listaNumeros += numero + " \n ";
-        }
-
-        resultado.setText(listaNumeros);
-        */
-
-        //resultado.setText("Hola Amigos");
-
-        //askForContactPermission();
-
     }
 
 
@@ -123,21 +100,8 @@ public class ContentsProvider extends AppCompatActivity {
                 null,
                 sortOrder);
 
-        //resultado.setText("");
-
 
         while (c.moveToNext()) {
-            /*
-            resultado.append("Identificador: " +
-                    c.getString(0) +
-                    " Nombre: " +
-                    c.getString(1) +
-                    " Número: " +
-                    c.getString(2) +
-                    " Tipo: " +
-                    c.getString(3) + "\n");
-            */
-
             //----- cargar objetos contacto en ArratyList de contactos de la agenda -------------
 
                 String numeroSinEspacion = c.getString(2).replace(" ","");
@@ -288,7 +252,6 @@ public class ContentsProvider extends AppCompatActivity {
 
     public void obtenerNumerosUsuarios()
     {
-
         //----------------- get All volley ---------------------------
 
         String url ="http://momentosandroid.000webhostapp.com/momentosAndroid/obtener_usuarios.php";
@@ -301,7 +264,6 @@ public class ContentsProvider extends AppCompatActivity {
             public void onResponse(String response)
             {
                 String telefono = "";
-                String devuelve ="";
 
                 //Creamos un objeto JSONObject para poder acceder a los atributos (campos) del objeto.
                 try
@@ -324,30 +286,9 @@ public class ContentsProvider extends AppCompatActivity {
                             telefono = alumnosJSON.getJSONObject(i).getString("telefono");
                             numerosUsuarios.add(telefono);
                         }
-                        /*
-                        // telefonos del servicio web
-                        String genteConMiApp = "Estos son los numeros rescatados de la base de datos";
-                        for(String telef : numerosUsuarios)
-                        {
-                            genteConMiApp += telef + " \n ";
-                        }
-
-                        resultado.setText(genteConMiApp);
-                        */
 
                         //---------------- cargar lista teléfonos -------------------------------
                         askForContactPermission();
-                        /*
-                        // comprobamos contactos agenda
-                        String genteConMiApp = "Estos son los contactos de la agenda: \n";
-                        for(Contacto ct : contactosAgenda)
-                        {
-                            genteConMiApp += ct.getNombre() + " - "+ct.getTelefono()+ " \n ";
-                        }
-
-                        resultado.setText(genteConMiApp);
-                        */
-
 
                         //---------------- Comparar listas y crear lista contactos con mi app -----
 
@@ -383,8 +324,7 @@ public class ContentsProvider extends AppCompatActivity {
 
                     }
                     else if (resultJSON=="2"){
-                        devuelve = "No hay alumnos";
-                        //resultado.setText(devuelve);
+
                     }
                 }
                 catch (JSONException e)
@@ -408,10 +348,5 @@ public class ContentsProvider extends AppCompatActivity {
         //---------------------------------------------------------------------
 
     }
-
-
-
-
-
 
 }

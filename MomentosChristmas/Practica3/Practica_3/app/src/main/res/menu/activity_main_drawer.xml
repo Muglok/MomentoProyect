@@ -6,38 +6,28 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_crear_momento"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/ic_menu_send"
             android:title="Crear Momento" />
-
         <item
-            android:id="@+id/nav_ver_momento"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Ver Momento" />
-
-        <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Camera" />
+            android:id="@+id/nav_ContentsProvider"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="Contactos" />
         <item
             android:id="@+id/nav_accesos"
             android:icon="@drawable/ic_menu_gallery"
             android:title="Accesos" />
         <item
-            android:id="@+id/nav_ContentsProvider"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Contents Provider" />
-        <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:id="@+id/nav_camera"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="Camera" />
     </group>
 
     <item android:title="Communicate">
         <menu>
             <item
-                android:id="@+id/nav_share"
+                android:id="@+id/nav_web_site"
                 android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
+                android:title="Web Site" />
             <item
                 android:id="@+id/nav_send"
                 android:icon="@drawable/ic_menu_send"

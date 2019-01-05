@@ -15,7 +15,6 @@ public class Accesos extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_accesos);
 
-
         //Recupero datos del bundle pasado de la ventana Login
         Bundle b2 = this.getIntent().getExtras();
         datosAccesos = b2.getString("datosSelect");
@@ -26,6 +25,4 @@ public class Accesos extends AppCompatActivity {
         textViewRegistros.setText(datosAccesos);
 
     }
-
-
 }

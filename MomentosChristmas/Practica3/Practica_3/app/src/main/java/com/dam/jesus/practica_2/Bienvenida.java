@@ -14,7 +14,6 @@ public class Bienvenida extends AppCompatActivity {
     private Runnable task = new Runnable()
     {
         public void run() {
-            Toast.makeText(getApplicationContext(), "Pasamos al login!", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(Bienvenida.this,Login.class);
             // abro ventana
             startActivity(intent);

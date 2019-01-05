@@ -69,9 +69,6 @@ public class VerMomento extends AppCompatActivity implements OnMapReadyCallback 
         tvHora = findViewById(R.id.editTextHora);
         tvDescripcion.setMovementMethod(new ScrollingMovementMethod());
 
-        //compartirM = findViewById((R.id.compartirMomento));
-
-
         //---------------- Recupero los datos pasados desde la Main Activity -------------------
 
              Bundle b = this.getIntent().getExtras();
@@ -91,19 +88,6 @@ public class VerMomento extends AppCompatActivity implements OnMapReadyCallback 
 
 
         //--------------------------------------------------------------------------------------
-        /*
-           Plantilla de cómo vienen los datos del MainActivity
-
-           b.putString("titulo",momento.getTitulo());
-           b.putString("descripcion",momento.getDescripcion());
-           b.putString("cancion",momento.getCancion());
-           b.putDouble("latitude",momento.getLatitud());
-           b.putDouble("longitude",momento.getLongitud());
-           b.putString("fechaActual",momento.getFecha());
-           b.putString("horaActual",momento.getHora());
-           b.putInt("idMomento",momento.getId());
-           b.putInt("compartido",momento.getCompartido());
-         */
 
         //Colocamos datos en textViews
 
@@ -112,28 +96,6 @@ public class VerMomento extends AppCompatActivity implements OnMapReadyCallback 
         tvCancion.setText(cancion);
         tvFecha.setText(fechaActual);
         tvHora.setText(horaActual);
-
-
-
-        //------------------------------ Metemos datos de prueba -------------------------
-        /*
-        tvTiulo.setText("Momento de Prueba");
-        tvDescripcion.setText("Descripción momento de prueba");
-        tvCancion.setText("Help - The Beatles");
-        tvFecha.setText("03-01.2019");
-        tvHora.setText("04:25:47");
-
-        fechaActual = tvFecha.getText().toString();
-        horaActual = tvHora.getText().toString();
-
-        // latitud y longitud de prueba
-        latitude =  -10.56789;
-        longitude = 20.5678;
-
-        compartido = 0;
-        idMomento = 3;
-        */
-        //-------------------------------------------------------------------------------
     }
 
 
@@ -147,7 +109,6 @@ public class VerMomento extends AppCompatActivity implements OnMapReadyCallback 
         {
             Toast.makeText(this,"Este momento ya está compartido",Toast.LENGTH_SHORT).show();
         }
-
     }
 
 

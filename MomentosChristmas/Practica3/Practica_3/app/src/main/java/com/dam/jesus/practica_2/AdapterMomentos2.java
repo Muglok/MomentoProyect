@@ -72,11 +72,4 @@ public class AdapterMomentos2  extends RecyclerView.Adapter<AdapterMomentos2.Vie
         }
     }
 
-    public static String dateFormat(Date dateX)
-    {
-        SimpleDateFormat dt = new SimpleDateFormat("dd-mm-yy hh:mm");
-
-
-        return dt.format(dateX);
-    }
 }

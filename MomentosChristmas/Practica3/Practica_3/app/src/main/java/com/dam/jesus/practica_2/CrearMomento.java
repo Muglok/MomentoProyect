@@ -108,8 +108,6 @@ public class CrearMomento extends AppCompatActivity implements OnMapReadyCallbac
 
         //nos enlazamos con el boton de obtener geolocalización
 
-
-
         //creamos objeto tipo LocationTrack
         locationTrack = new LocationTrack(CrearMomento.this);
 
@@ -176,12 +174,7 @@ public class CrearMomento extends AppCompatActivity implements OnMapReadyCallbac
         fechaActual = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
         horaActual = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
 
-        //idUsuario = 1;
-
         compartido = 0;
-
-        //momento = new Momento2(idUsuario,tituloParam,descripcionParam,cancionParam,latitude,longitude,null,idUsuario,fechaActual,horaActual,compartido);
-
 
         // Mapeo de los pares clave-valor
         HashMap<String, Object> parametros = new HashMap<String,Object>();
@@ -206,10 +199,8 @@ public class CrearMomento extends AppCompatActivity implements OnMapReadyCallbac
                     public void onResponse(JSONObject response) {
                         // Manejo de la respuesta
 
-
                         //Accedemos al vector de resultados
 
-                        String devuelve = "";
 
                         String resultJSON = null;   // estado es el nombre del campo en el JSON
                         try {
@@ -219,24 +210,19 @@ public class CrearMomento extends AppCompatActivity implements OnMapReadyCallbac
                         }
 
                         if (resultJSON == "1") {      // hay un alumno que mostrar
-                            devuelve = "Momento insertado correctamente";
-                            Toast.makeText(getApplicationContext(), devuelve, Toast.LENGTH_LONG).show();
+
 
                         } else if (resultJSON == "2") {
-                            devuelve = "El alumno no pudo insertarse";
-                            //resultado.setText(devuelve);
+
                         }
 
-
-                        //resultado.setText(devuelve);
                     }
                 },
                 new Response.ErrorListener() {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        // Manejo de errores
-                        //resultado.setText("Ha habído un error");
+
                     }
                 });
 

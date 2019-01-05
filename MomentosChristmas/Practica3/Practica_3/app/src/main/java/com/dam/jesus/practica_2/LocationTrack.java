@@ -111,7 +111,6 @@ public class LocationTrack extends Service implements LocationListener
 
                 }
 
-
                 /*if (checkNetwork) {
 
 
