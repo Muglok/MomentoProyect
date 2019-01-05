@@ -31,6 +31,7 @@ import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -49,7 +50,7 @@ import java.util.Locale;
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
-public class CrearMomento extends FragmentActivity implements OnMapReadyCallback {
+public class CrearMomento extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
 
@@ -59,8 +60,6 @@ public class CrearMomento extends FragmentActivity implements OnMapReadyCallback
     EditText titulo;
     EditText descripcion;
     EditText cancion;
-
-    Button guardarMomento;
 
     String fechaActual;
     String horaActual;
@@ -94,7 +93,7 @@ public class CrearMomento extends FragmentActivity implements OnMapReadyCallback
         titulo = findViewById((R.id.editTextTitulo));
         descripcion = findViewById(R.id.editTextDescripcion);
         cancion = findViewById(R.id.editTextCancion);
-        //guardarMomento = findViewById(R.id.guardarMomento);
+        descripcion.setMovementMethod(new ScrollingMovementMethod());
 
         permissionsToRequest = findUnAskedPermissions(permissions);
         //Cogemos los permisos que no están todavía dados.
@@ -151,13 +150,14 @@ public class CrearMomento extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabCrearM);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                añadirMomento();
                 Snackbar.make(view, "Momento añadido correctamente", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-                añadirMomento();
+
             }
         });
     }

@@ -1,7 +1,11 @@
 package com.dam.jesus.practica_2;
 
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,7 +30,7 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
-public class EditarMomento extends FragmentActivity implements OnMapReadyCallback {
+public class EditarMomento extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
 
@@ -46,7 +50,6 @@ public class EditarMomento extends FragmentActivity implements OnMapReadyCallbac
 
     EditText etTiulo, etDescripcion, etCancion;
     TextView tvFecha, tvHora;
-    Button btnModificar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +67,7 @@ public class EditarMomento extends FragmentActivity implements OnMapReadyCallbac
         etCancion       = findViewById(R.id.editTextModificarCancion);
         tvFecha         = findViewById(R.id.textViewModificarFecha);
         tvHora          = findViewById(R.id.textViewModificarHora);
-        btnModificar    = findViewById(R.id.modificarMomento);
+        etDescripcion.setMovementMethod(new ScrollingMovementMethod());
         //-------------------------------------------------------------------------
 
         //------ Recibo datos de la activity Ver Momento --------------------------
@@ -92,9 +95,13 @@ public class EditarMomento extends FragmentActivity implements OnMapReadyCallbac
         tvHora.setText(horaActual);
         //------------------------------------------------------------------------
 
-        btnModificar.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabEditarM);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 modificarMomento();
+                Snackbar.make(view, "Momento modificado correctamente", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
             }
         });
     }

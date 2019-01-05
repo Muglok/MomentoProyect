@@ -3,6 +3,8 @@ package com.dam.jesus.practica_2;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,7 +29,7 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
-public class VerMomento extends FragmentActivity implements OnMapReadyCallback {
+public class VerMomento extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
 
@@ -65,6 +67,7 @@ public class VerMomento extends FragmentActivity implements OnMapReadyCallback {
         tvCancion = findViewById(R.id.editTextCancion);
         tvFecha = findViewById(R.id.editTextFecha);
         tvHora = findViewById(R.id.editTextHora);
+        tvDescripcion.setMovementMethod(new ScrollingMovementMethod());
 
         //compartirM = findViewById((R.id.compartirMomento));
 

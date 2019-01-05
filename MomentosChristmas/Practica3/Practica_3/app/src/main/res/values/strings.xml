@@ -31,9 +31,9 @@
         <item>c3</item>
         <item>c4</item>
     </string-array>
-    <string name="title_activity_crear_momento">Map</string>
-    <string name="title_activity_ver_momento">Map</string>
+    <string name="title_activity_crear_momento">Crear Momento</string>
+    <string name="title_activity_ver_momento">Ver Momento</string>
     <string name="title_activity_boton">Boton</string>
-    <string name="title_activity_editar_momento">Map</string>
+    <string name="title_activity_editar_momento">Editar Momento</string>
 
 </resources>

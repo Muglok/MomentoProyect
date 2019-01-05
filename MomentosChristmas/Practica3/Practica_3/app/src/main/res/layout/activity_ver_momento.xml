@@ -1,28 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:orientation="vertical"
-    >
+    android:padding="10dp">
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-
-            android:gravity="center"
-            android:text="Ver Momento"
-            android:textAlignment="gravity"
-            android:textSize="30sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -47,15 +36,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
+                android:gravity="center"
                 android:inputType="textPersonName"
-                android:paddingLeft="25dp"
-                android:paddingTop="10dp"
-                android:textSize="18sp" />
+                android:paddingRight="35dp"
+                android:textSize="22sp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
 
 
             android:orientation="horizontal">
@@ -76,7 +65,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="122dp"
 
             android:orientation="horizontal">
 
@@ -88,7 +77,8 @@
                 android:layout_marginRight="10dp"
                 android:ems="10"
                 android:gravity="left"
-                android:inputType="textPersonName"
+                android:inputType="textMultiLine"
+                android:scrollbars="vertical"
                 android:paddingTop="10dp"
                 android:textSize="18sp" />
         </LinearLayout>
@@ -190,8 +180,8 @@
                 android:name="com.google.android.gms.maps.SupportMapFragment"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
                 tools:context=".CrearMomento" />
 
 
@@ -222,4 +212,4 @@
     </LinearLayout>
 
     </LinearLayout>
-</LinearLayout>
+</RelativeLayout>

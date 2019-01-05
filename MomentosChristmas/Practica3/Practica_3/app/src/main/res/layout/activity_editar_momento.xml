@@ -1,28 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:orientation="vertical"
-    >
+    android:padding="5dp">
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabEditarM"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="21dp"
+        android:layout_marginRight="21dp"
+        android:layout_marginBottom="15dp"
+        app:srcCompat="@android:drawable/ic_menu_save"
+        app:backgroundTint="@color/colorAccent"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-
-            android:gravity="center"
-            android:text="Modificar Momento"
-            android:textAlignment="gravity"
-            android:textSize="30sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -48,14 +49,13 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
                 android:inputType="textPersonName"
-                android:paddingLeft="25dp"
                 android:paddingTop="10dp"
                 android:textSize="18sp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
 
 
             android:orientation="horizontal">
@@ -76,19 +76,20 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="122dp"
 
             android:orientation="horizontal">
 
             <EditText
                 android:id="@+id/editTextModificarDescripcion"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="112dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:ems="10"
                 android:gravity="left"
-                android:inputType="textPersonName"
+                android:inputType="textMultiLine"
+                android:scrollbars="vertical"
                 android:paddingTop="10dp"
                 android:textSize="18sp" />
         </LinearLayout>
@@ -188,26 +189,12 @@
                 android:name="com.google.android.gms.maps.SupportMapFragment"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
                 tools:context=".CrearMomento" />
 
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/modificarMomento"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Modificar"
-                />
-
-        </LinearLayout>
-
     </LinearLayout>
-</LinearLayout>
+</RelativeLayout>
