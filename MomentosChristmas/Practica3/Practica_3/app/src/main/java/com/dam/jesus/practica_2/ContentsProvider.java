@@ -31,7 +31,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
 public class ContentsProvider extends AppCompatActivity {
@@ -348,7 +351,6 @@ public class ContentsProvider extends AppCompatActivity {
 
                         //---------------- Comparar listas y crear lista contactos con mi app -----
 
-
                         for(Contacto ct: contactosAgenda)
                         {
                             for(String tfn: numerosUsuarios)
@@ -361,12 +363,20 @@ public class ContentsProvider extends AppCompatActivity {
                         }
 
 
-                        //------ mostrar en resultado -----------------------------
-                        String genteConMiApp = "Contactos con Geo Moments: \n";
+                        //------------- pasamos datos a hashSet -------------------
+                        Set<String> setContactos = new HashSet<>();
+
                         for(Contacto cont : contactosConApp)
                         {
-                            genteConMiApp += cont.getNombre()+" "+ cont.getTelefono() + " \n ";
+                            setContactos.add(cont.getNombre()+";"+cont.getTelefono());
                         }
+
+                        //------ mostrar hashSet en resultado -----------------------------
+                        String genteConMiApp = "Contactos con Geo Moments: \n";
+
+                        Iterator<String> i = setContactos.iterator();
+                        while (i.hasNext())
+                            genteConMiApp += i.next() +"\n";
 
                         resultado.setText(genteConMiApp);
 

@@ -10,9 +10,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
+import android.provider.CallLog;
 import android.provider.ContactsContract;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
@@ -85,7 +87,7 @@ public class Login extends AppCompatActivity {
 
     boolean usuarioValido = false;
 
-    private Contacto contactoYo;
+    private Contacto contactoYo = null;
     private static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 1;
     public static final int REQUEST_READ_CONTACTS = 79;
     public static final int PERMISSION_REQUEST_CONTACT = 1;
@@ -105,14 +107,12 @@ public class Login extends AppCompatActivity {
             if (usuarioValido) {
 
                 //------ Recuperamos teléfono del usuario y lo metemos en la base de datos -----
-
-                askForContactPermissionLogin();
+                askForContactPermission();
 
                 if(contactoYo != null)
                 {
                     updateTelefonoUsuario(id,contactoYo.getTelefono());
                 }
-
 
                 //------------------------------------------------------------------------------
 
@@ -245,12 +245,59 @@ public class Login extends AppCompatActivity {
         usuarioValido = false;
     }
 
+    //--------------------------- Parte permissions ------------------------------------
+
+    public void ObtenerDatosLlamadas() {
+
+        Uri uri;
+
+        /*
+        content://media/internal/images
+        content://media/external/video
+        content://media/internal/audio
+
+        */
+
+        //         content://media/*/images
+        //         content://settings/system/ringtones
+
+        uri = Uri.parse("content://call_log/calls");
+
+        String[] projeccion = new String[]{CallLog.Calls.TYPE,
+                CallLog.Calls.NUMBER,
+                CallLog.Calls.DURATION};
+
+
+
+        Cursor c = getContentResolver().query(
+                uri,
+                projeccion,
+                null,
+                null,
+                null);
+
+        //resultado.setText("");
+
+
+        while(c.moveToNext()){
+            /*
+            resultado.append("Tipo: " +
+                    c.getString(0) +
+                    " Número: " +
+                    c.getString(1) +
+                    " Duración: " +
+                    c.getString(2) +"\n");
+                    */
+        }
+        c.close();
+
+
+    }
 
 
 
 
-    //-------------------------- parte contents provider ------------------------------------------
-    public void getContactTelefono() {
+    public void getContact(){
 
         /*contactsCursor = getContentResolver().query(
         ContactsContract.Contacts.CONTENT_URI,   // URI de contenido para los contactos
@@ -259,11 +306,11 @@ public class Login extends AppCompatActivity {
         selectionArgs,                     // Valores de la condición
         sortOrder);                        // ORDER BY columna [ASC|DESC]*/
 
-        String[] projeccion = new String[]{
+        String[] projeccion = new String[] {
                 ContactsContract.Data._ID,
                 ContactsContract.Data.DISPLAY_NAME,
                 ContactsContract.CommonDataKinds.Phone.NUMBER,
-                ContactsContract.CommonDataKinds.Phone.TYPE};
+                ContactsContract.CommonDataKinds.Phone.TYPE };
 
         String selectionClause = ContactsContract.Data.MIMETYPE + "='" +
                 ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE + "' AND "
@@ -278,11 +325,20 @@ public class Login extends AppCompatActivity {
                 null,
                 sortOrder);
 
+        //resultado.setText("");
 
 
-
-        while (c.moveToNext()) {
-
+        while(c.moveToNext()){
+            /*
+            resultado.append("Identificador: " +
+                    c.getString(0) +
+                    " Nombre: " +
+                    c.getString(1) +
+                    " Número: " +
+                    c.getString(2)+
+                    " Tipo: " +
+                    c.getString(3)+"\n");
+                    */
             //----- cargar objeto contacto en ArratyList -------------
             if(c.getString(1).equals("Yo"))
             {
@@ -296,9 +352,10 @@ public class Login extends AppCompatActivity {
     }
 
 
-    public void askForContactPermissionLogin() {
+
+    public void askForContactPermission(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(this,Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
 
                 // Should we show an explanation?
                 if (ActivityCompat.shouldShowRequestPermissionRationale(this,
@@ -334,14 +391,61 @@ public class Login extends AppCompatActivity {
                     // app-defined int constant. The callback method gets the
                     // result of the request.
                 }
-            } else {
-                getContactTelefono();
+            }else{
+                getContact();
             }
-        } else {
-            getContactTelefono();
+        }
+        else{
+            getContact();
         }
     }
 
+    public void askForCallPermission(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(this,Manifest.permission.READ_CALL_LOG) != PackageManager.PERMISSION_GRANTED) {
+
+                // Should we show an explanation?
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                        Manifest.permission.READ_CALL_LOG)) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setTitle("El acceso a las llamadas es requerido");
+                    builder.setPositiveButton(android.R.string.ok, null);
+                    builder.setMessage("Por favor confirme el acceso a las llamadas");//TODO put real question
+                    builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @TargetApi(Build.VERSION_CODES.M)
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                            requestPermissions(
+                                    new String[]
+                                            {Manifest.permission.READ_CALL_LOG}
+                                    , PERMISSION_REQUEST_CALL);
+                        }
+                    });
+                    builder.show();
+                    // Show an expanation to the user *asynchronously* -- don't block
+                    // this thread waiting for the user's response! After the user
+                    // sees the explanation, try again to request the permission.
+
+                } else {
+
+                    // No explanation needed, we can request the permission.
+
+                    ActivityCompat.requestPermissions(this,
+                            new String[]{Manifest.permission.READ_CALL_LOG},
+                            PERMISSION_REQUEST_CALL);
+
+                    // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                    // app-defined int constant. The callback method gets the
+                    // result of the request.
+                }
+            }else{
+                ObtenerDatosLlamadas();
+            }
+        }
+        else{
+            ObtenerDatosLlamadas();
+        }
+    }
 
 
     @Override
@@ -352,7 +456,7 @@ public class Login extends AppCompatActivity {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    getContactTelefono();
+                    getContact();
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
 
@@ -367,7 +471,7 @@ public class Login extends AppCompatActivity {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    //ObtenerDatosLlamadas();
+                    ObtenerDatosLlamadas();
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
 
@@ -383,7 +487,11 @@ public class Login extends AppCompatActivity {
             // permissions this app might request
         }
     }
-    //------------------------------------------------------------------------------------
+  //------------------------- end permissions -----------------------------------------
+
+
+
+
 
 
     public void updateTelefonoUsuario(int id, String telefono)
@@ -443,4 +551,5 @@ public class Login extends AppCompatActivity {
         queue.add(jsArrayRequest);
         //-----------------------------------------------
     }
+
 }
