@@ -10,7 +10,7 @@ public class Contacto  {
     private int id;
 
 
-    public Contacto(String nombre,String telefono) {
+    public Contacto(String telefono,String nombre) {
         this.telefono = telefono;
         this.nombre = nombre;
     }

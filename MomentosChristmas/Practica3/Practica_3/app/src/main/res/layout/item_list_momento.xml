@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <android.support.v7.widget.CardView
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
@@ -21,62 +21,71 @@
             android:background="#ffd404"/>
 
         <LinearLayout
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_margin="10dp"
-            android:gravity="center">
+            android:orientation="vertical"
+            android:layout_marginTop="10dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="35">
+                android:layout_marginLeft="10dp"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/idTitulo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Nombre"
+                    android:textColor="@color/common_google_signin_btn_text_dark_focused"
                     android:textSize="20dp"
-                    android:textStyle="bold|italic"
-                    android:textColor="@color/common_google_signin_btn_text_dark_focused"/>
+                    android:textStyle="bold|italic" />
 
                 <TextView
                     android:id="@+id/idDescripcion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Descripcion"
                     android:layout_marginBottom="15dp"
                     android:paddingLeft="10dp"
-                    android:textSize="9dp"
-                    android:textColor="@color/common_google_signin_btn_text_dark_focused"/>
+                    android:paddingTop="3dp"
+                    android:text="Descripcion"
+                    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+                    android:textSize="9dp" />
             </LinearLayout>
-            <LinearLayout
+
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="65">
+                android:orientation="horizontal"
+                android:background="#6282a5"
+                android:layout_gravity="right">
 
                 <TextView
                     android:id="@+id/idCancion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+
                     android:text="Cancion"
-                    android:paddingLeft="5dp"
+                    android:textColor="@color/common_google_signin_btn_text_dark_focused"
                     android:textSize="12dp"
-                    android:textColor="@color/common_google_signin_btn_text_dark_focused"/>
+                    android:paddingLeft="15dp"
+                    android:paddingRight="5dp"
+                    android:layout_alignParentLeft="true"
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:id="@+id/idFecha"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Fecha y hora"
-                    android:paddingLeft="5dp"
+                    android:textColor="@color/common_google_signin_btn_text_dark_focused"
                     android:textSize="12dp"
-                    android:textColor="@color/common_google_signin_btn_text_dark_focused"/>
-            </LinearLayout>
+                    android:paddingLeft="5dp"
+                    android:paddingRight="15dp"
+                    android:layout_alignParentRight="true"
+                    android:textStyle="bold"/>
+            </RelativeLayout>
 
         </LinearLayout>
     </android.support.v7.widget.CardView>
-</LinearLayout>
+</RelativeLayout>

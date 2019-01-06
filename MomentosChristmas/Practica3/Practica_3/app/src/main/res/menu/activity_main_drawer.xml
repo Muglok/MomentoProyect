@@ -26,12 +26,12 @@
         <menu>
             <item
                 android:id="@+id/nav_web_site"
-                android:icon="@drawable/ic_menu_share"
+                android:icon="@drawable/common_google_signin_btn_icon_light_focused"
                 android:title="Web Site" />
             <item
                 android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
+                android:icon="@drawable/ic_info_black_24dp"
+                android:title="Preguntas frecuentes" />
         </menu>
     </item>
 

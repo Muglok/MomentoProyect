@@ -306,7 +306,7 @@ public class ContentsProvider extends AppCompatActivity {
                         for(String cont : setContactos)
                         {
                             String[] datos = cont.split(";");
-                            contactosConApp.add(new Contacto(datos[0],datos[1]));
+                            contactosConApp.add(new Contacto(datos[1],datos[0]));
                         }
 
 
