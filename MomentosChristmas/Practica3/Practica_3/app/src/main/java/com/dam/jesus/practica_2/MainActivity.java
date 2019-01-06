@@ -6,6 +6,11 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorListener;
+import android.hardware.SensorManager;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -47,7 +52,7 @@ import java.util.HashMap;
 import java.util.concurrent.CountDownLatch;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener ,SensorEventListener {
 
     public static ArrayList<Momento2> list_momentos;
     public static RecyclerView recyclerMomentos;
@@ -64,6 +69,12 @@ public class MainActivity extends AppCompatActivity
     int estadoMomento = 1;
     SQLiteDatabase db;
     String datosSelect;
+
+    SensorManager sensorManager;
+    private Sensor acelerometro;
+    float acelVal;
+    float acelLast;
+    float shake;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,6 +152,9 @@ public class MainActivity extends AppCompatActivity
                         .setAction("Action", null).show();
             }
         });
+
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        acelerometro = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -482,6 +496,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onPause() {
         super.onPause();
+        sensorManager.unregisterListener(this);
         //Guardo datos
         if(mediaPlayer.isPlaying())
         {
@@ -494,6 +509,11 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
+        sensorManager.registerListener(this,acelerometro,SensorManager.SENSOR_DELAY_NORMAL);
+        acelVal = SensorManager.GRAVITY_EARTH;
+        acelLast = SensorManager.GRAVITY_EARTH;
+        shake = 0.f;
+
         lastTime = Calendar.getInstance();
         lastTime.add(Calendar.MILLISECOND,1000);
         list_momentos = new ArrayList<>();
@@ -548,4 +568,40 @@ public class MainActivity extends AppCompatActivity
        startActivity(intent);
 
    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        String cancion = pref.getString("listaCanciones", "default");
+
+        AudioManager manager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        if(pref.getBoolean("usoSonidoAgitar",false) == true)
+        {
+            float x,y,z;
+
+            x = event.values[0];
+            y = event.values[1];
+            z = event.values[2];
+
+            acelLast = acelVal;
+            acelVal = (float) Math.sqrt((double) (x*x + y*y + z*z));
+            float delta = acelVal - acelLast;
+            shake = shake *0.9f + delta;
+
+            if(shake > 12)
+            {
+                if(mediaPlayer.isPlaying())
+                    mediaPlayer.pause();
+                else
+                    mediaPlayer.start();
+            }
+        }
+
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+    }
 }

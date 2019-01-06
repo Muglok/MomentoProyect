@@ -25,6 +25,10 @@
             android:key="usoSonido"
             android:title="Sonido"
             android:summary="Activa o desactiva el sonido"/>
+        <CheckBoxPreference
+            android:key="usoSonidoAgitar"
+            android:title="Shake"
+            android:summary="Activa o desactiva el sensor al agitar"/>
         <ListPreference
             android:key="listaCanciones"
             android:title="Lista Canciones"
