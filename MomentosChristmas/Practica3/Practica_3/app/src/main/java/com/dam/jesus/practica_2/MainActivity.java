@@ -591,6 +591,47 @@ public class MainActivity extends AppCompatActivity
 
             if(shake > 12)
             {
+                /*if(pref.getBoolean("usoSonido",false) == false)
+                {
+
+                    manager.setStreamMute(AudioManager.STREAM_MUSIC, true);
+                }
+                else
+                {
+                    manager.setStreamMute(AudioManager.STREAM_MUSIC, false);
+
+                    if(mediaPlayer.isPlaying())
+                    {
+                        mediaPlayer.pause();
+                    }
+
+                    switch (cancion){
+
+                        case "c1":
+                            mediaPlayer =  mediaPlayer.create(this,R.raw.cancion2);
+                            break;
+
+                        case "c2":
+                            mediaPlayer =  mediaPlayer.create(this,R.raw.cancion3);
+                            break;
+
+                        case "c3":
+                            mediaPlayer =  mediaPlayer.create(this,R.raw.cancion4);
+                            break;
+
+                        case "c4":
+                            mediaPlayer =  mediaPlayer.create(this,R.raw.cancion1);
+                            break;
+
+                        default:
+                            mediaPlayer =  mediaPlayer.create(this,R.raw.musica);
+                            break;
+                    }
+                    mediaPlayer.start();
+                    musicOn = true;
+                }*/
+
+
                 if(mediaPlayer.isPlaying())
                     mediaPlayer.pause();
                 else
