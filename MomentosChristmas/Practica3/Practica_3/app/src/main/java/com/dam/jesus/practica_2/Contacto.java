@@ -4,13 +4,13 @@ import java.util.Comparator;
 
 public class Contacto  {
 
-    private String telefono;
     private String nombre;
+    private String telefono;
 
     private int id;
 
 
-    public Contacto(String telefono, String nombre) {
+    public Contacto(String nombre,String telefono) {
         this.telefono = telefono;
         this.nombre = nombre;
     }

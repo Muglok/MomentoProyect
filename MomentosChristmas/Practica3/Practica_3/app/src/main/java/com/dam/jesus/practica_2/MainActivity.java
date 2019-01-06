@@ -15,6 +15,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.Time;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -40,6 +41,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.concurrent.CountDownLatch;
@@ -49,6 +51,7 @@ public class MainActivity extends AppCompatActivity
 
     public static ArrayList<Momento2> list_momentos;
     public static RecyclerView recyclerMomentos;
+    public Calendar lastTime;
 
     MediaPlayer mediaPlayer;
     boolean musicOn;
@@ -131,6 +134,8 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                lastTime = Calendar.getInstance();
+                lastTime.add(Calendar.MILLISECOND,1000);
                 String text = elegirTipoMomento();
                 Snackbar.make(view, text, Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
@@ -223,8 +228,10 @@ public class MainActivity extends AppCompatActivity
                     adapter.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            pasarDatosActivity(list_momentos.get(recyclerMomentos.getChildAdapterPosition(view)));
-
+                            if (lastTime.before(Calendar.getInstance()))
+                            {
+                                pasarDatosActivity(list_momentos.get(recyclerMomentos.getChildAdapterPosition(view)));
+                            }
                         }
                     });
 
@@ -286,8 +293,10 @@ public class MainActivity extends AppCompatActivity
                         @Override
                         public void onClick(View view) {
 
-                            pasarDatosActivity(list_momentos.get(recyclerMomentos.getChildAdapterPosition(view)));
-
+                            if (lastTime.before(Calendar.getInstance()))
+                            {
+                                pasarDatosActivity(list_momentos.get(recyclerMomentos.getChildAdapterPosition(view)));
+                            }
                         }
                     });
 
@@ -485,6 +494,8 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
+        lastTime = Calendar.getInstance();
+        lastTime.add(Calendar.MILLISECOND,1000);
         list_momentos = new ArrayList<>();
         construirRecycler2();
         //Recupero datos
