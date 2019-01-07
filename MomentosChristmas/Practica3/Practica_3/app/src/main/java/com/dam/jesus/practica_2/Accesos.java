@@ -14,6 +14,8 @@ public class Accesos extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_accesos);
+        getSupportActionBar().setTitle("Historial de Accesos");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //Recupero datos del bundle pasado de la ventana Login
         Bundle b2 = this.getIntent().getExtras();

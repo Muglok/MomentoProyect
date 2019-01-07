@@ -82,6 +82,8 @@ public class CrearMomento extends AppCompatActivity implements OnMapReadyCallbac
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crear_momento);
+        getSupportActionBar().setTitle("Crear Momento");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //--- recuperamos variable id del login
         idUsuario = Login.id;

@@ -57,6 +57,8 @@ public class ContentsProvider extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contents_provider);
+        getSupportActionBar().setTitle("Contactos");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
 
