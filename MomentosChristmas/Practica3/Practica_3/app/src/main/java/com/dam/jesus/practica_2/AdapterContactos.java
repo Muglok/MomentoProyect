@@ -28,6 +28,8 @@ public class AdapterContactos extends RecyclerView.Adapter<AdapterContactos.View
         return new AdapterContactos.ViewHolderDatos(view);
     }
 
+
+
     @Override
     public void onBindViewHolder(AdapterContactos.ViewHolderDatos holder, int position) {
         holder.etiNombre.setText(listaContactos.get(position).getNombre());
