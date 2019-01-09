@@ -34,13 +34,34 @@ public class Preferencias extends PreferenceActivity {
     protected void onStop() {
         super.onStop();
 
-
         //reogemos las preferencias
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
         //las anadimos al string texto
-        String userName = pref.getString("nombreUsuario", "user");
-        String passWord = pref.getString("contrasena", "1234");
+        String userName = pref.getString("nombreUsuario", Login.user);
+        String passWord = pref.getString("contrasena", Login.pass);
 
+        if(userName.length() == 0 || passWord.length() == 0)
+        {
+            if(userName.length() == 0)
+            {
+                userName.equals(Login.user);
+            }
+
+            if(passWord.length() == 0)
+            {
+                passWord.equals(Login.pass);
+            }
+
+        }
+        else if(!userName.equals((Login.user)) || !passWord.equals(Login.pass))
+        {
+            actualizarUsuario(userName, passWord);
+        }
+
+    }
+
+    public void actualizarUsuario(String userName, String passWord)
+    {
         // ------------------ update user Pass Volley ----------------------------------
         String url = "http://momentosandroid.000webhostapp.com/momentosAndroid/actualizar_userPass.php";
 
@@ -94,6 +115,7 @@ public class Preferencias extends PreferenceActivity {
                 });
 
         queue.add(jsArrayRequest);
+
 
         //------------------------------------------------------------------------------
     }

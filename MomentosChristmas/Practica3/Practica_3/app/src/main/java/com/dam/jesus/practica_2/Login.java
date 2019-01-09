@@ -8,12 +8,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.provider.CallLog;
 import android.provider.ContactsContract;
 import android.support.annotation.RequiresApi;
@@ -75,8 +77,8 @@ public class Login extends AppCompatActivity {
     Button buttonLogin;
     TextView textViewInfo;
 
-    String user;
-    String pass;
+    public static String user;
+    public static String pass;
 
     String telefono;
 
@@ -119,6 +121,11 @@ public class Login extends AppCompatActivity {
 
                 currentTime = Calendar.getInstance().getTime();
                 horaConexion = currentTime.toString();
+
+
+                //--- guardamos user y pass en preferencias -----
+                guardarUserEnPreferencias();
+
 
 
                 Intent intent = new Intent(Login.this,MainActivity.class);
@@ -550,6 +557,17 @@ public class Login extends AppCompatActivity {
 
         queue.add(jsArrayRequest);
         //-----------------------------------------------
+    }
+
+
+    public void guardarUserEnPreferencias()
+    {
+        SharedPreferences prefs = PreferenceManager
+                .getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor edit = prefs.edit();
+        edit.putString("nombreUsuario", user);
+        edit.putString("contrasena", pass);
+        edit.commit();
     }
 
 }
