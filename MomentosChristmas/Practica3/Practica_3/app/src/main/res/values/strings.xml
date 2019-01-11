@@ -16,8 +16,6 @@
     <!-- Strings related to Settings -->
 
 
-
-
     <string-array name="cancion">
         <item>Cancion 1 </item>
         <item>Cancion 2</item>
@@ -35,5 +33,6 @@
     <string name="title_activity_ver_momento">Ver Momento</string>
     <string name="title_activity_boton">Boton</string>
     <string name="title_activity_editar_momento">Editar Momento</string>
+    <string name="title_activity_registro">Registro</string>
 
 </resources>

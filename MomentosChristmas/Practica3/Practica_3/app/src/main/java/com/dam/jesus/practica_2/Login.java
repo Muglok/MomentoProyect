@@ -25,7 +25,9 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
+import android.text.SpannableString;
 import android.text.method.ScrollingMovementMethod;
+import android.text.style.UnderlineSpan;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -75,7 +77,7 @@ public class Login extends AppCompatActivity {
     EditText editTextUser;
     EditText editTextPassword;
     Button buttonLogin;
-    TextView textViewInfo;
+    TextView textViewInfo, textViewRegistro;
 
     public static String user;
     public static String pass;
@@ -160,6 +162,11 @@ public class Login extends AppCompatActivity {
         buttonLogin = findViewById(R.id.buttonLogin);
         textViewInfo = findViewById(R.id.textViewInfo);
 
+        textViewRegistro = findViewById(R.id.textRegistro);
+        SpannableString content = new SpannableString(textViewRegistro.getText());
+        content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
+        textViewRegistro.setText(content);
+
         //boton login
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -240,6 +247,15 @@ public class Login extends AppCompatActivity {
                 //ejecutamos tarea en un handler
                 Handler handler = new Handler();
                 handler.postDelayed(task, 2000);
+            }
+        });
+
+        textViewRegistro.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                //Vamos a Activity Accesos
+                Intent intent = new Intent(Login.this,Registro.class);
+                // abro ventana
+                startActivity(intent);
             }
         });
     }
@@ -536,7 +552,7 @@ public class Login extends AppCompatActivity {
 
                         if (resultJSON == "1") {      // hay un alumno que mostrar
                             devuelve = "Telefono Actualizado";
-                            Toast.makeText(getApplicationContext(),devuelve,Toast.LENGTH_LONG).show();
+                            //Toast.makeText(getApplicationContext(),devuelve,Toast.LENGTH_LONG).show();
 
                         } else if (resultJSON == "2") {
                             devuelve = "El momento no pudo modificarse";

@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dam.jesus.practica_2">
-
     //Permiso para obtener el número del teléfono
     <uses-permission
         android:name="android.permission.GET_ACCOUNTS"
         android:maxSdkVersion="22" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
     //Permisos para GPS
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -71,7 +69,8 @@
             android:label="@string/title_activity_ver_momento" />
         <activity
             android:name=".EditarMomento"
-            android:label="@string/title_activity_editar_momento"></activity>
+            android:label="@string/title_activity_editar_momento" />
+        <activity android:name=".Registro"></activity>
     </application>
 
 </manifest>

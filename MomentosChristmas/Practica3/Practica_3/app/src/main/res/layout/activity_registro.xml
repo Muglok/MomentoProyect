@@ -9,13 +9,14 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/textViewLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingBottom="15dp"
             android:text="REGISTRO"
             android:textAlignment="center"
             android:textSize="36sp"
@@ -46,7 +47,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:hint="Introduce aquí tu nombre"/>
+            android:hint="Introduce tu nombre"/>
     </LinearLayout>
 
     <LinearLayout
@@ -74,7 +75,34 @@
             android:ems="10"
             android:inputType="textPassword"
             android:password="true"
-            android:hint="Introduce aquí tu Password"
+            android:hint="Introduce tu Password"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Telefono"
+            android:textSize="24sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/editTextRegistroTelefono"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Introduce tu numero de Telefono"
             />
     </LinearLayout>
 
@@ -84,7 +112,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/buttonLogin"
+            android:id="@+id/buttonRegistro"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
